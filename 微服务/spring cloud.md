@@ -149,7 +149,7 @@ management:
 
 
 
-# 二、服务注册和发现（Eureka/Consul/Zookeeper）
+# 二、服务注册和发现
 
 ## Eureka
 
@@ -312,7 +312,7 @@ spring:
 
 
 
-## 三、负载均衡（Ribbon）
+## 三、负载均衡
 
 ### Ribbon简介
 
@@ -421,7 +421,7 @@ public class RibbonController {
 
 
 
-## 四、声明式调用（Feign）
+## 四、声明式调用
 
 ### Feign简介
 
@@ -512,7 +512,7 @@ public class EurekaClientFeignController {
 
 
 
-## 五、服务熔断（Hystrix）
+## 五、服务熔断
 
 ### 什么是服务熔断
 
@@ -684,7 +684,7 @@ public class HystrixApplication {
 
 ![image-20190321220833422](https://ws4.sinaimg.cn/large/006tKfTcly1g1bj6ewxxzj314q0mgdiy.jpg)
 
-## 六、服务网关（Spring Cloud Gateway/Zuul）
+## 六、服务网关
 
 ### Spring Cloud Gateway
 
@@ -750,7 +750,7 @@ Spring Cloud Gateway将路由作为SpringWebFlux中HandlerMapping基础设施的
 
 
 
-## 七、服务链路追踪（Sleuth+Zipkin）
+## 七、服务链路追踪
 
 分布式微服务系统中，服务之间调用关系错综复杂，追踪问题变得异常麻烦，这就需要追踪一个请求的调用路径。这就需要服务链路追踪。
 
