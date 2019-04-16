@@ -56,14 +56,14 @@ Spring Boot三大特性：
 3. 状态监控（健康检查）
    1. 通过`actuator`组件对服务的状态进行监控
 
-#### 1. 自动配置
+### 1. 自动配置
 
 | 组件                           | 作用         | 用法                                             | 描述                                                         |
 | ------------------------------ | ------------ | ------------------------------------------------ | ------------------------------------------------------------ |
 | @EnableConfigurationProperties | 启动配置属性 | @EnableConfigurationProperties({MyConfig.class}) |                                                              |
 | @ConfigurationProperties       | 配置属性     | @ConfigurationProperties(prefix = "my.config")   | 此处的`prefix`表示相同的前缀，在当前bean下的属性名称必须和配置文件中的名称一致 |
 
-##### 1.1 多个环境下的配置
+#### 1.1 多个环境下的配置
 
 实际开发过程中，一般会存在开发环境dev、测试环境test、生产环境prod。每个环境存在自己的配置信息。spring boot支持程序启动时在配置文件`application.yml(properties)`中指定对应环境的配置文件。配置文件格式是`application-{profile}.yml(properties)`，`profile`对应环境标志。比如：
 
@@ -80,7 +80,7 @@ spring:
     active: test
 ```
 
-#### 2. 状态监控
+### 2. 状态监控
 
 spring boot提供了对服务运行状态进行监控的组件`actuator`，监控数据可以通过REST（最常见简单）、远程shell、JMX方式获取。
 
@@ -153,7 +153,7 @@ management:
 
 ## Eureka
 
-#### Eureka的基础架构
+### Eureka的基础架构
 
 | 名称             |              | 描述                                 |
 | ---------------- | ------------ | ------------------------------------ |
@@ -174,7 +174,7 @@ ConsumerService-->提供消费者服务
 
 
 
-#### Eureka中的概念
+### Eureka中的概念
 
 - 服务注册-register
   - Eureka Client向Eureka Server注册时，发送自身的元数据（自身ip、端口、健康检查url、主页地址等信息）
@@ -195,7 +195,7 @@ ConsumerService-->提供消费者服务
 
 
 
-#### 构建简单的Eureka Server和Eureka Client
+### 构建简单的Eureka Server和Eureka Client
 
 首先，引入maven依赖
 
@@ -300,15 +300,15 @@ spring:
 
 
 
-#### 构建高可用的Eureka Server集群
+### 构建高可用的EurekaServer集群
 
 因为目前的服务注册发现主流是通过Docker来进行实现，不再研究Eureka集群。
 
 
 
-#### Eureka存在的问题
+### Eureka存在的问题
 
-1. 引入eureka之后，服务响应数据全部变成xml。需要指定produces才能修改成json。工作量太大。
+引入eureka之后，服务响应数据全部变成xml。需要指定produces才能修改成json。工作量太大。
 
 
 
