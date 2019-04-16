@@ -1,5 +1,5 @@
 ---
-consul
+title:consul
 ---
 
 
