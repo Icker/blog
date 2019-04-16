@@ -1,5 +1,5 @@
 ---
-title:reactor
+title: reactor
 ---
 
 

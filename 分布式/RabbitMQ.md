@@ -1,5 +1,5 @@
 ---
-title:RabbitMQ
+title: RabbitMQ
 ---
 
 
