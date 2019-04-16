@@ -58,10 +58,15 @@ Spring Boot三大特性：
 
 ### 1. 自动配置
 
-| 组件                           | 作用         | 用法                                             | 描述                                                         |
-| ------------------------------ | ------------ | ------------------------------------------------ | ------------------------------------------------------------ |
-| @EnableConfigurationProperties | 启动配置属性 | @EnableConfigurationProperties({MyConfig.class}) |                                                              |
-| @ConfigurationProperties       | 配置属性     | @ConfigurationProperties(prefix = "my.config")   | 此处的`prefix`表示相同的前缀，在当前bean下的属性名称必须和配置文件中的名称一致 |
+- `@EnableConfigurationProperties`
+  - 使用：`@EnableConfigurationProperties({MyConfig.class})`
+  - 描述：
+
+- `@ConfigurationProperties`
+  - 使用：`@ConfigurationProperties(prefix = "my.config")`
+  - 描述：此处的`prefix`表示相同的前缀，在当前bean下的属性名称必须和配置文件中的名称一致
+
+
 
 #### 1.1 多个环境下的配置
 
