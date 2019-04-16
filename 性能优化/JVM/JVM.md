@@ -1,4 +1,11 @@
+---
+JVM
+---
+
+
+
 # 什么是JVM
+
 JVM（java virtual machine）即java虚拟机。是运行java语言的虚拟机。实现了java语言的跨平台性。
 
 JVM主要做了两件事：
