@@ -1,3 +1,12 @@
+```yaml
+title: 记一次奇异的mysql死锁问题
+date: 2019-04-19 10:55:56
+tags: 问题
+categories: 问题
+```
+
+
+
 # 记一次奇异的mysql死锁问题
 
 ## 死锁产生
