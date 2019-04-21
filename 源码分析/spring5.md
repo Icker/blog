@@ -402,7 +402,10 @@ Connection --> SQLServer
 Connection --> DB2
 Connection --> Access
 ```
+
+
 因此，数据库厂商需要提供自己的数据库驱动包。
+
 2. DataSource
   DataSource是对Connection的包装。因为Connection是由厂商生产的，我们不能改，我们就需要扩展一个DataSource，来做事务的统一管理。
 3. Statement
