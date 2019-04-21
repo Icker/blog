@@ -141,8 +141,8 @@ private final Set<String> singletonsCurrentlyInCreation =
 ## IOC容器初始化和依赖注入的扩展
 ### lazy-init
 spring的lazy-init默认是false，即模式采用的是初始化完成之后就会进行依赖注入。
-```
-AbstractBeanDefinition类中的laztInit属性：
+```java
+// AbstractBeanDefinition类中的laztInit属性：
 private boolean lazyInit = false;
 ```
 
@@ -218,14 +218,20 @@ C：做到把限制放宽了，任何一个类，都可能是一个controller。
 ### 2. 几个重要的类
 #### DispatcherServlet、FrameServlet、HttpServletBean、HttpServlet、Servlet
 
+
+
 ```mermaid
+
 graph LR
+
 DispatcherServlet --> FrameServlet
 FrameServlet --> HttpServletBean
 HttpServletBean --> HttpServlet
 HttpServlet --> GenericServlet
 GenericServlet --> Servlet
 ```
+
+
 DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
 ![image-20190321193324293](https://ws1.sinaimg.cn/large/006tKfTcly1g1bj6jqqw4j31fs0ooag9.jpg)
@@ -333,12 +339,18 @@ public class ControllerAop {
 
 ### SpringAOP的实现原理
 
+
+
 ```mermaid
+
 graph LR
+
 设计模式 --> 代理模式
 实现方式 --> JDK实现基于接口
 实现方式 --> CGLIB实现基于类
 ```
+
+
 SpringAOP调用链：
 ![image-20190321193357633](https://ws4.sinaimg.cn/large/006tKfTcly1g1bj6l0w6ij31i80iidle.jpg)
 
@@ -377,8 +389,12 @@ SpringAOP调用链：
 1. Connection
   JDK提供了Connection接口，是Java客户端和数据库连接的桥梁。由各大数据库厂商自己实现这个Connection接口。底层实现是通过一个长连接Socket连接数据库的。
 
+
+
 ```mermaid
+
 graph LR
+
 Connection --> MySQL
 MySQL --> ConnectionImpl
 Connection --> Oracle
