@@ -220,11 +220,11 @@ C：做到把限制放宽了，任何一个类，都可能是一个controller。
 
 ```mermaid
 graph LR
-DispatcherServlet-->FrameServlet
-FrameServlet-->HttpServletBean
-HttpServletBean-->HttpServlet
-HttpServlet-->GenericServlet
-GenericServlet-->Servlet
+DispatcherServlet --> FrameServlet
+FrameServlet --> HttpServletBean
+HttpServletBean --> HttpServlet
+HttpServlet --> GenericServlet
+GenericServlet --> Servlet
 ```
 DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
@@ -268,7 +268,7 @@ spring aop是spring对aop设计思想的一个具体实现。他的具体实现�
 
 ### 简单介绍下如何使用Spring AOP
 #### 创建一个切面类需要用到的注解和配置
-```
+```java
 1. 配置方式
 <aop:advisor> // 定义AOP通知器
 <aop:after> // 定义AOP后置通知（不管该方法是否执行成功）
@@ -335,9 +335,9 @@ public class ControllerAop {
 
 ```mermaid
 graph LR
-设计模式-->代理模式
-实现方式-->JDK实现基于接口
-实现方式-->CGLIB实现基于类
+设计模式 --> 代理模式
+实现方式 --> JDK实现基于接口
+实现方式 --> CGLIB实现基于类
 ```
 SpringAOP调用链：
 ![image-20190321193357633](https://ws4.sinaimg.cn/large/006tKfTcly1g1bj6l0w6ij31i80iidle.jpg)
@@ -379,12 +379,12 @@ SpringAOP调用链：
 
 ```mermaid
 graph LR
-Connection-->MySQL
-MySQL-->ConnectionImpl
-Connection-->Oracle
-Connection-->SQLServer
-Connection-->DB2
-Connection-->Access
+Connection --> MySQL
+MySQL --> ConnectionImpl
+Connection --> Oracle
+Connection --> SQLServer
+Connection --> DB2
+Connection --> Access
 ```
 因此，数据库厂商需要提供自己的数据库驱动包。
 2. DataSource
