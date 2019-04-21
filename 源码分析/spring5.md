@@ -220,11 +220,11 @@ C：做到把限制放宽了，任何一个类，都可能是一个controller。
 
 ```mermaid
 graph LR
-DispatcherServlet--继承-->FrameServlet
-FrameServlet--继承-->HttpServletBean
-HttpServletBean--继承-->HttpServlet
-HttpServlet--继承-->GenericServlet
-GenericServlet--实现-->Servlet
+DispatcherServlet-->FrameServlet
+FrameServlet-->HttpServletBean
+HttpServletBean-->HttpServlet
+HttpServlet-->GenericServlet
+GenericServlet-->Servlet
 ```
 DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
@@ -377,7 +377,7 @@ SpringAOP调用链：
 1. Connection
   JDK提供了Connection接口，是Java客户端和数据库连接的桥梁。由各大数据库厂商自己实现这个Connection接口。底层实现是通过一个长连接Socket连接数据库的。
 
-```
+```mermaid
 graph LR
 Connection-->MySQL
 MySQL-->ConnectionImpl
