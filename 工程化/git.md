@@ -1,6 +1,5 @@
 ---
 title: git
-date: 2019-04-09 14:29:56
 tags: 版本控制
 categories: 工程化
 ---
@@ -16,5 +15,6 @@ categories: 工程化
 # git 命令
 
 - `glol`：查看历史记录
-- `git pull `
-- 
+- `git pull `: 更新
+- `git reset --hard HEAD^`: 还原至上一个提交版本
+- `git push`: 发布到远程

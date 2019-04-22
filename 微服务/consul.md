@@ -1,6 +1,5 @@
 ---
 title: consul
-date: 2019-04-12 14:29:56
 tags: 服务发现注册
 categories: 微服务
 ---
