@@ -1,7 +1,9 @@
 ---
 title: reactor
 tags: 响应式编程
-categories: 微服务
+categories: 
+- 微服务
+- 响应式编程
 ---
 
 

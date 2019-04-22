@@ -1,7 +1,11 @@
 ---
 title: Mybatis
-tags: ORM
-categories: 源码分析
+tags: 
+- ORM
+- 源码分析
+categories: 
+- 源码分析
+- mybatis
 ---
 
 
