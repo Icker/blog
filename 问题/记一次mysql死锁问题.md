@@ -8,19 +8,10 @@ categories: 问题
 
 # 记一次奇异的mysql死锁问题
 
-阿楚人像摄影课
-
-小樱妙妙
-
-发生时间：16:35:54
-
-
-
 ## 死锁产生
 
 ```json
 {
-  timestamp: "1555494346507", 
   status: 500, 
   error: "Internal Server Error",
   exception: "org.springframework.dao.DeadlockLoserDataAccessException",
