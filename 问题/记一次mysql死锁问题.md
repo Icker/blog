@@ -38,13 +38,13 @@ LATEST DETECTED DEADLOCK
 TRANSACTION 6669450, ACTIVE 2 sec starting index read
 mysql tables in use 1, locked 1
 LOCK WAIT 17 lock struct(s), heap size 1136, 18 row lock(s), undo log entries 15
-MySQL thread id 11638758, OS thread handle 47514753963776, query id 134840522 10.1.64.225 xiaomai statistics
+MySQL thread id 11638758, OS thread handle 47514753963776, query id 134840522 10.1.64.225  statistics
 SELECT /* UseMaster=false */  id,student_id,teacher_id,class_id,class_name,class_hour,status,gmt_create,gmt_modify,inst_id,sign_id,course_type,course_id,sign_date,makeup_status,checked_class_hour,student_temp_status,sign_rule,price,remark,course_fee_type,is_trial,del,leave_type,is_leave_consume,teacher_ids,class_room_id,class_room_name,extra_time,sign_remark,remedial_sign_status,remedial_sign_in_id  FROM student_sign_in  WHERE       (  id in
               (
                 158731
               ) ) FOR UPDATE
 *** (1) WAITING FOR THIS LOCK TO BE GRANTED:
-RECORD LOCKS space id 276 page no 4099 n bits 144 index PRIMARY of table `xiaomai`.`student_sign_in` trx id 6669450 lock_mode X locks rec but not gap waiting
+RECORD LOCKS space id 276 page no 4099 n bits 144 index PRIMARY of table `student_sign_in` trx id 6669450 lock_mode X locks rec but not gap waiting
 Record lock, heap no 76 PHYSICAL RECORD: n_fields 38; compact format; info bits 0
  0: len 8; hex 8000000000026c0b; asc       l ;;
  1: len 6; hex 00000065c488; asc    e  ;;
@@ -89,7 +89,7 @@ Record lock, heap no 76 PHYSICAL RECORD: n_fields 38; compact format; info bits 
 TRANSACTION 6669448, ACTIVE 2 sec starting index read
 mysql tables in use 1, locked 1
 4 lock struct(s), heap size 1136, 2 row lock(s), undo log entries 1
-MySQL thread id 11638765, OS thread handle 47510727431936, query id 134840562 10.1.64.225 xiaomai updating
+MySQL thread id 11638765, OS thread handle 47510727431936, query id 134840562 10.1.64.225  updating
 update institution_student_classhour
         set finish_class_hour = ifnull(finish_class_hour,0) + -100,
          
@@ -107,7 +107,7 @@ update institution_student_classhour
          ) 
         and course_fee_type in (1,2)
 *** (2) HOLDS THE LOCK(S):
-RECORD LOCKS space id 276 page no 4099 n bits 144 index PRIMARY of table `xiaomai`.`student_sign_in` trx id 6669448 lock_mode X locks rec but not gap
+RECORD LOCKS space id 276 page no 4099 n bits 144 index PRIMARY of table `student_sign_in` trx id 6669448 lock_mode X locks rec but not gap
 Record lock, heap no 76 PHYSICAL RECORD: n_fields 38; compact format; info bits 0
  0: len 8; hex 8000000000026c0b; asc       l ;;
  1: len 6; hex 00000065c488; asc    e  ;;
@@ -149,7 +149,7 @@ Record lock, heap no 76 PHYSICAL RECORD: n_fields 38; compact format; info bits 
  37: SQL NULL;
 
 *** (2) WAITING FOR THIS LOCK TO BE GRANTED:
-RECORD LOCKS space id 205 page no 1412 n bits 384 index student_id_course_id_index of table `xiaomai`.`institution_student_classhour` trx id 6669448 lock_mode X locks rec but not gap waiting
+RECORD LOCKS space id 205 page no 1412 n bits 384 index student_id_course_id_index of table `institution_student_classhour` trx id 6669448 lock_mode X locks rec but not gap waiting
 Record lock, heap no 197 PHYSICAL RECORD: n_fields 4; compact format; info bits 0
  0: len 8; hex 8e8d046491000060; asc    d   `;;
  1: len 8; hex 8e8d04111a000060; asc        `;;
