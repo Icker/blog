@@ -62,7 +62,7 @@ kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的�
 
 分区的存在是为了提高数据的伸缩性。同个主题的分区可以分布在不同的服务器中，也就是说一个主题横跨多个服务器，以此来提升应用性能。
 
-![image-20190505120558105](https://ws2.sinaimg.cn/large/006tNc79ly1g2qb7s9qzaj30q20a4wjk.jpg)
+![image-20190505120558105](../imgs/Kafka/006tNc79ly1g2qb7s9qzaj30q20a4wjk.jpg)
 
 我们通常会使用**流**来形容kafka这类系统的数据。很多时候，人们把一个主题上的数据看成一个流，不论其有几个分区。**流是一组从生产者移动到消费者的数据。**当我们讨论**流式处理**时，一般都是这样描述消息的。kafka streams、apache samza和storm都是以**实时**的方式处理消息，也就是所谓的**流式处理**。
 
@@ -76,7 +76,7 @@ kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的�
 
 消费者是**消费者群组**的一部分，会有一个或者多个消费者共同读取一个主题。群组保证每个分区只能被一个消费者使用。消费者和分区之间的映射关系被称为消费者对分区的**所有权关系**。如下图所示：
 
-![image-20190505140025998](https://ws4.sinaimg.cn/large/006tNc79ly1g2qeiucgj7j30om0byqa5.jpg)
+![image-20190505140025998](../imgs/Kafka/006tNc79ly1g2qeiucgj7j30om0byqa5.jpg)
 
 
 
@@ -86,7 +86,7 @@ kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的�
 
 broker是**集群**的组成部分。每个集群都有一个broker同时充当**集群控制器**的角色（自动从集群的活跃成员中选举出来）。控制器负责管理工作，包括将分区分配给broker和监控broker。在集群中，一个分区从属于一个broker，该broker被称为分区的**首领**。一个分区可以分配给多个broker，这个时候会发生分区复制。这种肤质机制为分区提供了消息冗余，如果一个broker失效，其他broker就可以接管领导权。相关的消费者和生产者都要重新连接到新的首领。
 
-![image-20190505141125901](https://ws1.sinaimg.cn/large/006tNc79ly1g2qeuaf29zj30pm0f4jxy.jpg)
+![image-20190505141125901](../imgs/Kafka/006tNc79ly1g2qeuaf29zj30pm0f4jxy.jpg)
 
 **保留消息**是kafka的一个重要特性。kafka默认消息保留策略：要么保留一段时间（比如7天），要么保留到消息达到一定大小的字节数（比如1G）。当消息数量达到上限时，旧消息就会过期并被删除。主题可以配置自己的保留策略。
 
@@ -125,7 +125,7 @@ sh kafka-server-start.sh ../config/server.properties &
 
 # 二、生产者
 
-![image-20190505154017684](https://ws4.sinaimg.cn/large/006tNc79ly1g2qhexzew0j30ow0ju7bs.jpg)
+![image-20190505154017684](../imgs/Kafka/006tNc79ly1g2qhexzew0j30ow0ju7bs.jpg)
 
 
 

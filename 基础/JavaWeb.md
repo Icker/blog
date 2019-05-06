@@ -43,7 +43,7 @@ web服务器启动时，并不会立刻创建Servlet实例，而是当第一次�
 
 ### 5. 架构图
 ### 6. Servlet接口实现关系
-![image-20190321192721369](https://ws2.sinaimg.cn/large/006tKfTcly1g1bj6fun5pj30p60fgjux.jpg)
+![image-20190321192721369](../imgs/JavaWeb/006tKfTcly1g1bj6fun5pj30p60fgjux.jpg)
 > GenericServlet实现了Servlet，HttpServlet继承了GenericServlet并提供了doGet、doPost、doPut、doDelete方法。
 
 ## 共享数据域

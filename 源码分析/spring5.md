@@ -42,7 +42,7 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 
 以下是BeanFactory的关联关系：
 
-![image-20190321193207434](https://ws3.sinaimg.cn/large/006tKfTcly1g1bj6ga26wj30we0ru0wj.jpg)
+![image-20190321193207434](../imgs/spring5/006tKfTcly1g1bj6ga26wj30we0ru0wj.jpg)
 
 #### 2.2 DefaultListableBeanFactory
 `DefaultListableBeanFactory`是BeanFactory的子类，ioc容器的注册就是通过这个类实现的。
@@ -53,21 +53,21 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 2. 访问资源。(实现 ResourcePatternResolver 接口，后面章节会讲到)
 3. 支持应用事件。(实现 ApplicationEventPublisher 接口)
 
-![image-20190321193224932](https://ws4.sinaimg.cn/large/006tKfTcly1g1bj6h9asnj31i009sq5a.jpg)
+![image-20190321193224932](../imgs/spring5/006tKfTcly1g1bj6h9asnj31i009sq5a.jpg)
 
 #### 2.4 BeanDefinition
 用BeanDefinition描述Bean对象，BeanDefinition对象就是内存中的配置文件，保存了所有跟类相关的属性信息以及依赖信息。
 
 Spring的IOC容器管理了我们定义的Bean对象及其相互的关系。Bean对象在Spring实现中是以`BeanDefinition`描述的。继承体系如下：
 
-![image-20190321193236445](https://ws3.sinaimg.cn/large/006tKfTcly1g1bj6i2hp9j31hi0q60y3.jpg)
+![image-20190321193236445](../imgs/spring5/006tKfTcly1g1bj6i2hp9j31hi0q60y3.jpg)
 
 #### 2.5 XmlBeanDefinitionReader
 spring用BeanDefinitionReader来解析Spring配置文件。
 
 spring是通过`XmlBeanDefinitionReader`的进行定位读取xml资源文件的。
 
-![image-20190321193246824](https://ws2.sinaimg.cn/large/006tKfTcly1g1bj6j3nbzj31fq0rgn22.jpg)
+![image-20190321193246824](../imgs/spring5/006tKfTcly1g1bj6j3nbzj31fq0rgn22.jpg)
 
 #### 2.6 BeanDefinitionParserDelegate
 spring通过`BeanDefinitionParserDelegate`这个委派类进行bean的解析，封装成`BeanDefinition`对象，以提供spring使用。
@@ -237,7 +237,7 @@ GenericServlet --> Servlet
 
 DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
-![image-20190321193324293](https://ws1.sinaimg.cn/large/006tKfTcly1g1bj6jqqw4j31fs0ooag9.jpg)
+![image-20190321193324293](../imgs/spring5/006tKfTcly1g1bj6jqqw4j31fs0ooag9.jpg)
 
 #### 九大组件
 ##### MultipartResolver
@@ -253,7 +253,7 @@ DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
 该`RequestMappingHandlerMapping`中的`mappingRegistry`全局变量中包含了url和具体的conroller方法的映射关系。
 
-![image-20190321193342066](https://ws3.sinaimg.cn/large/006tKfTcly1g1bj6kkkutj30r20mianp.jpg)
+![image-20190321193342066](../imgs/spring5/006tKfTcly1g1bj6kkkutj30r20mianp.jpg)
 
 ##### HandlerAdapter
 用于多类型参数匹配转型，并作为方法具体执行的入口
@@ -353,9 +353,8 @@ graph LR
 实现方式 --> CGLIB实现基于类
 ```
 
-
 SpringAOP调用链：
-![image-20190321193357633](https://ws4.sinaimg.cn/large/006tKfTcly1g1bj6l0w6ij31i80iidle.jpg)
+![image-20190321193357633](../imgs/spring5/006tKfTcly1g1bj6l0w6ij31i80iidle.jpg)
 
 ### 主要的类
 #### AbstratAutowireCapableFactory
