@@ -1,6 +1,8 @@
 ---
 title: git
-tags: 版本控制
+tags: 
+- 版本控制
+- git
 categories: 工程化
 ---
 
@@ -19,3 +21,4 @@ categories: 工程化
 - `git reset --hard HEAD^`: 还原至上一个提交版本
 - `git push`: 发布到远程
 - `git branch -aa`: 查看远程分支，并定位到当前分支
+
