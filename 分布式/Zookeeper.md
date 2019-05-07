@@ -30,7 +30,7 @@ zookeeper集群-->共享资源
 
 zookeeper的数据结构是结构化存储方式。和文件系统的目录结构一样，只不过并不是真正的文件目录，而是在一个文件下应用了文件系统中的这些原理。zookeeper中的每一个节点被称为zNode。
 
-![image-20190507150710979](../imgs/Zookeeper/image-20190507150710979-7212831.png)
+![image-20190507150710979](imgs/Zookeeper/image-20190507150710979-7212831.png)
 
 节点类型
 
@@ -59,7 +59,7 @@ zookeeper的数据结构是结构化存储方式。和文件系统的目录结�
 ## Zookeeper的应用场景
 
 1. 配置中心（consul、阿里云acm可以替换）
-2. 注册中心（consul、spring cloud euraka可以替换）
+2. 服务发现（consul、spring cloud euraka可以替换）
 3. 分布式锁（redis）
 4. 负载均衡（spring cloud ribbon可以替换）
    1. kafka基于zookeeper进行master选举
