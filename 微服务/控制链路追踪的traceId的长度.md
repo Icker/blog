@@ -9,7 +9,7 @@ categories: 微服务
 
 
 
-#控制链路追踪的traceId的长度
+# 控制链路追踪的traceId的长度
 
 spring cloud sleuth中的`SleuthProperties`这个配置类中存在`traceId128`属性，该属性用于控制traceId的长度。
 
