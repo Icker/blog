@@ -49,8 +49,6 @@ zookeeper的数据结构是结构化存储方式。和文件系统的目录结�
 
 # 有什么特性？
 
-
-
 ## Watch事件机制
 
 客户端可以监听某一指定节点。当该节点下的数据发生变化时，zookeeper会产生一个watch事件，并且发送到客户端。但是客户端只会收到一次事件通知，如果后续这个节点再次发生变化，那么之前设置watch的客户端不会再收到消息。
@@ -64,11 +62,7 @@ zookeeper的数据结构是结构化存储方式。和文件系统的目录结�
 
 ## ACL权限控制
 
-类似于linux的文件系统访问权限。在zookeeper中，提供了ACL的命令进行节点的权限控制。
-
-定义了节点的5种权限。
-
-命令：create/read/write/delete/admin
+类似于linux的文件系统访问权限。有5种权限控制类型，具体在后续整合Java中讲解。
 
 
 
@@ -274,11 +268,36 @@ public void nodeChildrenChangedEventTest() throws KeeperException, InterruptedEx
 
 ### Watch事件监听实现原理
 
+TODO
+
 底层运用了nio
 
 
 
+## ACL权限控制
+
+zNode节点拥有5种操作权限：create、read、write、delete、admin 也就是 增、删、改、查、管理权限。
+
+身份的认证有4种方式：
+
+- world：默认方式，相当于全世界都能访问
+- auth：代表已经认证通过的用户(cli中可以通过addauth digest user:pwd 来添加当前上下文中的授权用户)
+- digest：即用户名:密码这种方式认证，这也是业务系统中最常用的
+- ip：使用Ip地址认证
+
+类似于linux的文件系统访问权限控制。有5种操作权限，具体在后续整合Java中讲解。
+
+整合到Java中，存在以下三种访问：
+
+- OPEN_ACL_UNSAFE：所有人拥有此节点所有权限
+- CREATOR_ALL_ACL：创建者拥有此节点所有权限。
+- READ_ACL_UNSAFE：所有人拥有此节点读权限
+
+
+
 # 集群
+
+TODO
 
 leader-follow方式
 
