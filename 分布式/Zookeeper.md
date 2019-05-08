@@ -6,11 +6,9 @@ categories: 分布式
 
 
 
-# 是什么
+# 是什么？
 
-zookeeper是分布式协调服务。协调各个节点对共享资源的访问，控制接入顺序。
-
-这个可以简单的理解成一个分布式锁。实际上zookeeper就是可以实现分布式锁的功能。也是zookeeper作为分布式协调服务的原因。
+Zookeeper是一款分布式协调服务。什么是分布式协调服务呢？在分布式环境下，协调各个节点对共享资源的访问的服务，即分布式协调服务。zookeeper存在的目的就是这个。
 
 ```mermaid
 graph BT
@@ -20,11 +18,16 @@ graph BT
 zookeeper集群-->共享资源
 ```
 
-当然，zookeeper出了是分布式协调服务之外，还提供了很多其他的功能点。比如：
+当然，zookeeper除了以上核心功能，还在其他的应用场景也提供了很好的帮助。
 
-1. 负载均衡机制（spring cloud ribbon提供了一样的功能，可被替换）
-2. 服务注册中心（spring cloud euraka、consul都可以做到）
-3. 服务上下线动态感知
+## Zookeeper的应用场景
+
+1. 分布式锁（redis提供了一样的功能，可被替换）
+2. 负载均衡机制（spring cloud ribbon提供了一样的功能，可被替换）
+   1. kafka基于zookeeper进行master选举
+3. 配置中心（consul，阿里云ACM都可以做到）
+4. 服务注册发现（spring cloud euraka、consul都可以做到）
+5. 服务上下线动态感知（spring cloud euraka可以替换）
 
 ## Zookeeper的数据结构
 
@@ -40,6 +43,21 @@ zookeeper的数据结构是结构化存储方式。和文件系统的目录结�
 
 
 
+# 有什么特性？
+
+
+
+## Watch事件机制
+
+客户端可以监听某一指定节点。当该节点下的数据发生变化时，zookeeper会产生一个watch事件，并且发送到客户端。但是客户端只会收到一次事件通知，如果后续这个节点再次发生变化，那么之前设置watch的客户端不会再收到消息。
+
+- watch是一次性的操作。
+- 可以通过循环监听达到永久监听效果。
+
+如何触发和监听事件在后续整合Java中讲解。
+
+
+
 ## ACL权限控制
 
 类似于linux的文件系统访问权限。在zookeeper中，提供了ACL的命令进行节点的权限控制。
@@ -50,20 +68,225 @@ zookeeper的数据结构是结构化存储方式。和文件系统的目录结�
 
 
 
-## Watch机制
+# 运用的一些设计思想
 
-客户端可以监听某一指定节点。节点下的数据变更会存在事件通知给客户端，类似发布订阅。这样客户端就能够被动的知道节点的变更信息。
+1. 乐观锁
+2. 发布订阅
 
 
 
-## Zookeeper的应用场景
+# 整合Java
 
-1. 配置中心（consul、阿里云acm可以替换）
-2. 服务发现（consul、spring cloud euraka可以替换）
-3. 分布式锁（redis）
-4. 负载均衡（spring cloud ribbon可以替换）
-   1. kafka基于zookeeper进行master选举
-5. 服务上下线动态感知（spring cloud euraka可以替换）
+引入依赖
+
+```xml
+<dependency>
+  <groupId>org.apache.zookeeper</groupId>
+  <artifactId>zookeeper</artifactId>
+  <version>3.4.13</version>
+</dependency>
+```
+
+
+
+## 数据的增删改查操作
+
+建立连接
+
+```java
+public ZooKeeper getZooKeeper() throws IOException, InterruptedException {
+  final CountDownLatch countDownLatch = new CountDownLatch(1);
+  // ZooKeeper集合通过监视器对象返回连接状态。
+  ZooKeeper zooKeeper = new ZooKeeper(connection, 4000, event -> {
+    if (event.getState().equals(Event.KeeperState.SyncConnected)) {
+      // 如果收到服务器的响应事件，则表示连接成功
+      countDownLatch.countDown();
+    }
+  });
+  System.out.println(zooKeeper.getState());
+  countDownLatch.await();
+  System.out.println(zooKeeper.getState());
+  return zooKeeper;
+}
+```
+
+新建节点
+
+```java
+public String createNode(String path, byte[] data) throws IOException, KeeperException, InterruptedException {
+  ZooKeeper zooKeeper = getZooKeeper();
+  // acl 要创建的节点的访问控制列表。ZooKeeper API提供了一个静态接口 ZooDefs.Ids 来获取一些基本的acl列表。例如，ZooDefs.Ids.OPEN_ACL_UNSAFE返回打开znode的acl列表。
+  String createPath = zooKeeper.create(path, data, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+  System.out.println("createPath = " + createPath);
+  return createPath;
+}
+```
+
+获取当前节点的值
+
+```java
+public byte[] getNodeData(String path, Stat stat) throws IOException, InterruptedException, KeeperException {
+    ZooKeeper zooKeeper = getZooKeeper();
+    byte[] bytes = zooKeeper.getData(path, null, stat);
+    return bytes;
+}
+```
+
+修改节点
+
+```java
+public Stat updateNodeData(String path, byte[] data, Stat stat) throws IOException, InterruptedException, KeeperException {
+    ZooKeeper zooKeeper = getZooKeeper();
+    Stat statResult = zooKeeper.setData(path, data, stat.getVersion());
+    return statResult;
+}
+```
+
+删除节点
+
+```java
+public void removeNode(String path, Stat stat) throws IOException, KeeperException, InterruptedException {
+  ZooKeeper zooKeeper = getZooKeeper();
+  zooKeeper.delete(path, stat.getVersion());
+}
+```
+
+
+
+## Watch事件监听
+
+客户端可以监听某一指定节点。当该节点下的数据发生变化时，zookeeper会产生一个watch事件，并且发送到客户端。但是客户端只会收到一次事件通知，如果后续这个节点再次发生变化，那么之前设置watch的客户端不会再收到消息。
+
+- watch是一次性的操作。
+- 可以通过循环监听达到永久监听效果。
+
+
+
+### 如何触发事件？
+
+事务类型的操作都会触发监听事件
+
+- create
+- delete
+- set
+
+
+
+### 如何监听事件？
+
+在客户端中通过以下三个操作监听事件，后续结合Java整合讲解watch事件监听。
+
+- getData
+- getChildren
+- exists
+
+
+
+### watch事件机制
+
+1. None(-1)：客户端连接状态发生变化，客户端会接收到该事件
+2. NodeCreated(1)：节点创建事件
+3. NodeDeleted(2)：节点删除事件
+4. NodeDataChanged(3)：节点数据变更事件
+5. NodeChildrenChanged(4)：子节点创建删除事件
+
+
+
+### 什么操作触发什么事件
+
+| 操作\事件            | Event for "/user"                     | Event for "/user/vip"                |
+| -------------------- | ------------------------------------- | ------------------------------------ |
+| create("/user")      | NodeCreatedEvent(exists/getData)      | 无                                   |
+| delete("/user")      | NodeDeletedEvent(exists/getData)      | 无                                   |
+| setData("/user")     | NodeDataChangedEvent(exists/getData)  | 无                                   |
+| create("/user/vip")  | NodeChildrenChangedEvent(getChildren) | NodeCreatedEvent(exists/getData)     |
+| delete("/user/vip")  | NodeChildrenChangedEvent(getChildren) | NodeDeletedEvent(exists/getData)     |
+| setData("/user/vip") | 无                                    | NodeDataChangedEvent(exists/getData) |
+
+
+
+```java
+/**
+* 监听节点创建事件
+*/
+@Test
+public void nodeCreatedEventTest() throws KeeperException, InterruptedException {
+  String path = "/user";
+  String value = "张三";
+  ZooKeeper zooKeeper = getZooKeeper();
+  zooKeeper.exists(path, event -> {
+    System.out.println(event.getPath() + "\t" + event.getType() + "\t" + event.getState());
+  });
+  zooKeeper.create(path, value.getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+  System.out.println("create success");
+}
+/**
+* 监听节点删除事件
+*/
+@Test
+public void nodeDeletedEventTest() throws KeeperException, InterruptedException {
+  String path = "/user/vip";
+  ZooKeeper zooKeeper = getZooKeeper();
+  zooKeeper.exists(path, event -> {
+    System.out.println(event.getPath() + "\t" + event.getType() + "\t" + event.getState());
+  });
+  System.out.println("start delete");
+  zooKeeper.delete(path, new Stat().getVersion());
+  System.out.println("delete success");
+}
+/**
+* 监听节点变更事件
+*/
+@Test
+public void nodeDataChangedEventTest() throws KeeperException, InterruptedException {
+  String path = "/user";
+  String value = "李四";
+  ZooKeeper zooKeeper = getZooKeeper();
+  zooKeeper.exists(path, event -> {
+    System.out.println(event.getPath() + "\t" + event.getType() + "\t" + event.getState());
+  });
+  System.out.println("start set");
+  zooKeeper.setData(path, value.getBytes(), new Stat().getVersion());
+  System.out.println("set success");
+}
+/**
+* 监听子节点变更事件
+*/
+@Test
+public void nodeChildrenChangedEventTest() throws KeeperException, InterruptedException {
+  String path = "/user/vip";
+  String value = "张三";
+  ZooKeeper zooKeeper = getZooKeeper();
+  zooKeeper.getChildren("/user", event -> {
+    System.out.println(event.getPath() + "\t" + event.getType() + "\t" + event.getState());
+  });
+  System.out.println("start create children");
+  zooKeeper.create(path, value.getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+  System.out.println("create children success");
+}
+```
+
+
+
+### Watch事件监听实现原理
+
+
+
+
+
+# 集群
+
+leader-follow方式
+
+```mermaid
+graph TB
+leader-->folloer1
+leader-->folloer2
+```
+
+
+
+## Leader选举
 
 
 
@@ -113,32 +336,4 @@ numChildren = 0
 # 删除节点
 [zk: localhost:2181(CONNECTED) 14] delete /path
 ```
-
-
-
-# 整合Java
-
-```xml
-<dependency>
-  <groupId>org.apache.zookeeper</groupId>
-  <artifactId>zookeeper</artifactId>
-  <version>3.4.13</version>
-</dependency>
-```
-
-
-
-
-
-# Zookeeper的集群
-
-leader-follow方式
-
-```mermaid
-graph TB
-leader-->folloer1
-leader-->folloer2
-```
-
-
 
