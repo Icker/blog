@@ -25,11 +25,13 @@ zookeeper集群-->共享资源
 ## Zookeeper的应用场景
 
 1. 分布式锁（redis提供了一样的功能，可被替换）
-2. 负载均衡机制（spring cloud ribbon提供了一样的功能，可被替换）
+2. 负载均衡机制（spring cloud ribbon提供了微服务之间的负载均衡）
    1. kafka基于zookeeper进行master选举
 3. 配置中心（consul，阿里云ACM都可以做到）
 4. 服务注册发现（spring cloud euraka、consul都可以做到）
 5. 服务上下线动态感知（spring cloud euraka可以替换）
+
+ZooKeeper主要被应用在HBase\Solr\Kafka等系统上
 
 ## Zookeeper的数据结构
 
@@ -170,7 +172,7 @@ public void removeNode(String path, Stat stat) throws IOException, KeeperExcepti
 
 - create
 - delete
-- set
+- setData
 
 
 
@@ -272,7 +274,7 @@ public void nodeChildrenChangedEventTest() throws KeeperException, InterruptedEx
 
 ### Watch事件监听实现原理
 
-
+底层运用了nio
 
 
 
