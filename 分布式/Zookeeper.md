@@ -1,6 +1,8 @@
 ---
 title: Zookeeper
-tags: 分布式协调工具
+tags: 
+- 分布式协调服务
+- zookeeper
 categories: 分布式
 ---
 
