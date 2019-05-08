@@ -12,5 +12,7 @@ categories: 工具
 
 根据下图操作就能够仅针对stringRedisTemplate的bean的时候才会进入端点，其他bean不会进入该端点。
 
-![image-20190506145317749](../imgs/Idea下添加条件端点/006tNc79ly1g2rlo6q0ihj30wc0f0q5i-20190506155220705.jpg)
+![](https://i.loli.net/2019/05/08/5cd2232b25803.png)
+
+
 

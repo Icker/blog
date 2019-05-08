@@ -197,7 +197,7 @@ ConsumerService-->提供消费者服务
 - 服务剔除-eviction
   - 默认情况下，Eureka Server在90秒内没有接收到Eureka Client的心跳，则将该服务从注册服务列表中剔除。
 - Eureka的高可用
-![image-20190320101037527](../imgs/spring cloud/006tKfTcly1g1bj6bpt8rj30sc0es141.jpg)
+![](https://i.loli.net/2019/05/08/5cd225a4de5b9.jpg)
 
 
 
@@ -264,7 +264,7 @@ spring:
 
 Eureka Server注册中心地址：`http://127.0.0.1:8761/`
 
-![image-20190320102129869](../imgs/spring cloud/006tKfTcly1g1bj6cg7kpj31y00t8jwi.jpg)
+![006tKfTcly1g1bj6cg7kpj31y00t8jwi](../imgs/spring cloud/006tKfTcly1g1bj6cg7kpj31y00t8jwi.jpg)
 
 配置Eureka Client
 
@@ -550,7 +550,7 @@ Hystrix 是在业界表现非常好的一个熔断器模型实现的开源组件
 
 当服务的某个API接口请求失败次数在一定时间内小于阈值时，熔断器处于关闭状态，该API接口正常提供服务。当失败次数达到阈值后，Hystrix就会判定该接口出现故障，开启熔断器，此时请求该 API 接口会执行快速失败的逻辑（回退fallback方案），不执行具体的业务逻辑，请求的线程不会处于阻塞状态。处于开启状态的熔断器会在一段时间之后处于半开启状态，并将一定数量的请求执行正常逻辑。剩余的请求会执行快速失败，若执行正常逻辑的 请求失败了，则熔断器继续打开；若成功了 ，则将熔断器关闭。这样熔断器就具有了自我修复的能力。
 
-![image-20190321132141487](../imgs/spring cloud/006tKfTcly1g1bj6d0o9cj30sa09udn7.jpg)
+![](https://i.loli.net/2019/05/08/5cd225beb3186.jpg)
 
 ## Hystrix结合Feign案例
 
@@ -681,7 +681,7 @@ public class HystrixApplication {
 
 [http://127.0.0.1:8766/hystrix](http://127.0.0.1:8766/hystrix)
 
-![image-20190321220737676](../imgs/spring cloud/006tKfTcly1g1bj6e5qmbj31bw0u0qcm.jpg)
+![](https://i.loli.net/2019/05/08/5cd225c8b27b2.jpg)
 
 输入`http://127.0.0.1:8766/actuator/hystrix.stream`、2000、自定义名称
 
@@ -689,7 +689,7 @@ public class HystrixApplication {
 
 之后访问接口`http://127.0.0.1:8766/hello?name=zhangsan`。然后查看刚才那个网站，就会出现一下监控信息。
 
-![image-20190321220833422](../imgs/spring cloud/006tKfTcly1g1bj6ewxxzj314q0mgdiy.jpg)
+![](https://i.loli.net/2019/05/08/5cd225d11b922.jpg)
 
 # 六、服务网关
 
@@ -707,9 +707,9 @@ spring cloud gateway基于Filter链的方式提供了网关基本的功能，用
 
 
 
-![img](../imgs/spring cloud/006tKfTcly1g1jiz9vuw0j30m80fn0we.jpg)
+![](https://i.loli.net/2019/05/08/5cd225e9bcad1.jpg)
 
-![Spring Cloud Gateway Diagram](../imgs/spring cloud/006tKfTcly1g1indx350fj30cb0gjmxm.jpg)
+![](https://i.loli.net/2019/05/08/5cd225f2eb554.jpg)
 
 ## 三大过滤器类型
 
@@ -789,7 +789,7 @@ Spring Cloud Gateway将路由作为SpringWebFlux中HandlerMapping基础设施的
 
 
 
-![image-20190322094024148](../imgs/spring cloud/006tKfTcly1g1bj6fdxv6j30ce0fkq7z.jpg)
+![](https://i.loli.net/2019/05/08/5cd2261c34d76.jpg)
 
 ## Sleuth + Zipkin案例
 
@@ -798,7 +798,7 @@ Spring Cloud Sleuth有两种方式整合Zipkin。
 - Http直连方式
 - MQ方式
 
-![image-20190322172710221](../imgs/spring cloud/006tKfTcly1g1bp8fht80j31360nu458.jpg)
+![](https://i.loli.net/2019/05/08/5cd22628d1f61.jpg)
 
 主要分成四个模块，一个Eureka Server，一个Zipkin Server，一个服务生产者，一个Gateway。
 
@@ -956,9 +956,9 @@ public class ZipkinGatewayApplication {
 
 搭建系统之后，依次启动eureka-server、zipkin server、zipkin provider、zipkin gateway。在浏览器上访问`http://10.0.7.151:8769/user-api/hi`，然后访问`http://127.0.0.1:9411/zipkin/`就可以查看到服务调用链了。
 
-![image-20190322145126259](../imgs/spring cloud/006tKfTcly1g1bkqcg3l8j31f20e4gn1.jpg)
+![](https://i.loli.net/2019/05/08/5cd22639da4aa.jpg)
 
-![image-20190322145155481](../imgs/spring cloud/006tKfTcly1g1bkqut2zmj31uh0u0wj5.jpg)
+![](https://i.loli.net/2019/05/08/5cd226417a4bf.jpg)
 
 ### Spring Cloud Sleuth通过RabbitMQ方式整合zipkin
 
@@ -1146,11 +1146,11 @@ public class ZipkinRabbitGatewayApplication {
 
 #### 4. 运行系统
 
-![image-20190322181951443](../imgs/spring cloud/006tKfTcly1g1bqr7w14tj31ue0nqwi0.jpg)
+![](https://i.loli.net/2019/05/08/5cd2265cb9d69.jpg)
 
-![image-20190322182047321](../imgs/spring cloud/006tKfTcly1g1bqs64hlrj31fa0so42p.jpg)
+![](https://i.loli.net/2019/05/08/5cd22664b9508.jpg)
 
-![image-20190322182102523](../imgs/spring cloud/006tKfTcly1g1bqsg2zqjj31be0pcq7n.jpg)
+![](https://i.loli.net/2019/05/08/5cd2267384323.jpg)
 
 # 八、Stream消息整合
 

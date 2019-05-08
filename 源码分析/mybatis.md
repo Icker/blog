@@ -203,3 +203,4 @@ mybatis-spring集成模块的类。使用spring集成式的Mybatis，则使用Sq
 8. BaseExecutor的localCache是什么用处？
     - 这就是传说中的一级缓存。因为是在BaseExecutor中，作用域跟随BaseExecutor，而BaseExecutor在SqlSession对象中，因此localCache的作用域跟随SqlSession。即一级缓存的作用域（Scope）是session级别的。
 9. spring是如何集成mybatis的？
+
