@@ -264,8 +264,6 @@ spring:
 
 Eureka Server注册中心地址：`http://127.0.0.1:8761/`
 
-![006tKfTcly1g1bj6cg7kpj31y00t8jwi](../imgs/spring cloud/006tKfTcly1g1bj6cg7kpj31y00t8jwi.jpg)
-
 配置Eureka Client
 
 ```java
@@ -758,6 +756,25 @@ Spring Cloud Gateway将路由作为SpringWebFlux中HandlerMapping基础设施的
 
 
 [spring cloud gateway的filter使用案例](https://segmentfault.com/a/1190000016227780)
+
+
+
+## 路由
+
+```yaml
+spring:
+  cloud:
+      gateway:
+        routes:
+          - id: api-account
+            uri: http://app-account:7002
+            predicates:
+              - Path=/account/**
+            filters:
+              - StripPrefix=1
+```
+
+如果是用户访问：`http://host/account/get/name`，在服务内部就会变成`http://app-account:7002/get/name`
 
 
 
