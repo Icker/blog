@@ -12,16 +12,19 @@ date: 2019-04-23 17:11:23
 
 
 
-# Spring核心源码分析
+# 1. Spring IOC容器初始化原理
 
-## Spring IOC容器初始化原理
 
-### 一段话描述IOC容器初始化流程
+
+## IOC容器概述
+
 ioc容器初始化分四个步骤：定位、加载、解析和注册。
 1. 定位是指定位Resource资源信息。
 2. 加载是指读取定位到资源信息成Document对象。
 3. 解析是指将读取到的资源对象解析转换成spring定义的BeanDefinition对象信息。
 4. 注册是指将解析后的BeanDefinition信息注册到ioc容器中。
+
+
 
 ```mermaid
 graph LR
@@ -29,14 +32,17 @@ graph LR
 加载-->解析
 解析-->注册
 ```
+
+
 以`ClassPathXmlApplication`作为入口，这4个步骤分别对应三个不同的关键类。定位加载的关键类是`XmlBeanDefinitionReader`，通过`XmlBeanDefinitionReader`类的`doLoadDocument`方法将资源文件信息通过调用JDK标准的JAXP规范的接口读取并封装成`Document`对象。解析的关键类是`BeanDefinnitionParserDelegate`，这是一个委派类，通过这个委派类进行bean的解析动作，将bean信息封装到`BeanDefinition`对象中。最后注册的关键类是`DefaultListableBeanFactory`，通过这个bean工厂，将beanDefinition对象注册到ioc容器中，所谓的ioc容器就是一个`ConcurrentMap`对象`beanDefinitionMap`，注册动作就是put动作。
 
 在spring的ioc容器初始化过程中，用到了很多的设计模式，其中有注册登记式的单例模式、模板方法模式、双亲委派模式。当然也灵活的运用了java的OOP思想、面向继承的思想。父类只定义标准，通过不同的子类实现，面向扩展。
 
 
 
-### IOC几个重要的类
-#### BeanFactory
+## IOC几个重要的类
+
+### BeanFactory
 
 BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了IOC容器的基本功能规范。在Spring中还有很多的IOC容器的实现供用户选择和使用。
 
@@ -46,13 +52,13 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 
 
 
-#### DefaultListableBeanFactory
+### DefaultListableBeanFactory
 
 `DefaultListableBeanFactory`是BeanFactory的子类，ioc容器的注册就是通过这个类实现的。
 
 
 
-#### ApplicationContext
+### ApplicationContext
 
 说到BeanFactory，我们不得不提ApplicationContext。相对于BeanFactory而言，ApplicationContext定义了IOC容器的基本功能之外，还提供一些附加服务。
 1. 支持信息源，可以实现国际化。(实现 MessageSource 接口)
@@ -65,7 +71,7 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 
 
 
-#### BeanDefinition
+### BeanDefinition
 
 用BeanDefinition描述Bean对象，BeanDefinition对象就是内存中的配置文件，保存了所有跟类相关的属性信息以及依赖信息。
 
@@ -75,7 +81,10 @@ Spring的IOC容器管理了我们定义的Bean对象及其相互的关系。Bean
 
 ![](https://blog.ilovetj.cn/img/bed/20190510/1557456115754.png)
 
-#### XmlBeanDefinitionReader
+
+
+### XmlBeanDefinitionReader
+
 spring用BeanDefinitionReader来解析Spring配置文件。
 
 spring是通过`XmlBeanDefinitionReader`的进行定位读取xml资源文件的。
@@ -86,13 +95,13 @@ spring是通过`XmlBeanDefinitionReader`的进行定位读取xml资源文件的�
 
 
 
-#### BeanDefinitionParserDelegate
+### BeanDefinitionParserDelegate
 
 spring通过`BeanDefinitionParserDelegate`这个委派类进行bean的解析，封装成`BeanDefinition`对象，以提供spring使用。
 
 
 
-### IOC容器初始化的过程
+## IOC容器初始化的过程
 
 ioc容器初始化分三个步骤：定位、加载、解析和注册。
 1. 定位
@@ -105,15 +114,16 @@ ioc容器初始化分三个步骤：定位、加载、解析和注册。
 
 
 
-### IOC容器初始化时序图
+## IOC容器初始化时序图
 
 [IOC容器初始化时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
 
 
 
-## 依赖注入的实现原理
+# 2. 依赖注入的实现原理
 
-### 一段话描述依赖注入的过程
+## 依赖注入概述
+
 依赖注入的整个过程分为三个步骤：创建、依赖注入和注册
 1. 创建
     - 通过反射或者cglib策略读取ioc容器中的BeanDefinition的bean信息，实例化成对应的bean
@@ -137,16 +147,18 @@ spring的依赖注入分为3个步骤，1是创建，2是注入，3是注册。�
 
 
 
-### 依赖注入中几个主要的类
+## 依赖注入中几个主要的类
 
-#### AbstractBeanFactory
+### AbstractBeanFactory
 
 getBean最初入口，所有getBean实际是调用了doGetBean。处理实现了FactoryBean接口的对象。
 
-#### AbstractAutowireCapableBeanFactory
+### AbstractAutowireCapableBeanFactory
+
 doCreateBean终极完全入口。创建bean实例，提前暴露ObjectFactory，实现依赖注入三大操作的终极完全入口。
 
-#### DefaultSingletonBeanRegistry
+### DefaultSingletonBeanRegistry
+
 各种创建中或者已经创建依赖完成的bean对象的容器。
 ```java
 /** Cache of singleton objects: bean name --> bean instance */
@@ -171,22 +183,26 @@ private final Set<String> singletonsCurrentlyInCreation =
 
 
 
-### 依赖注入时序图
+## 依赖注入时序图
 
 [依赖注入时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
 
 
 
-## IOC容器初始化和依赖注入的扩展
+# IOC容器初始化和依赖注入的扩展
 
-### lazy-init
+## lazy-init
+
 spring的lazy-init默认是false，即模式采用的是初始化完成之后就会进行依赖注入。
 ```java
 // AbstractBeanDefinition类中的laztInit属性：
 private boolean lazyInit = false;
 ```
 
+
+
 ## 问题
+
 1. ioc容器存放的是实例对象吗？
     - 不是。存放的是BeanDefintion，bean的描述信息
 2. ioc容器初始化过程中会创建bean实例吗？
@@ -194,19 +210,34 @@ private boolean lazyInit = false;
 3. 依赖注入中循环引用的问题
 4. BeanFactory和FactoryBean的区别
 
-### BeanFactory和FactoryBean的区别
+
+
+## BeanFactory和FactoryBean的区别
+
 FactoryBean实质上是spring定义的一个bean的标准。这个标准是的形式是个接口，用户实现这个接口来创建自己想要的目标对象。     
 他的目的是解决复杂bean创建过程的繁琐问题。它提供了3个方法，getObject、isSingleton、getObjectType。        
 我们调用getBean方法来获取一个实现了FactoryBean接口的对象时，传入具体的name，实际上是获取FactoryBean.getObject方法返回的对象，而如果想要获得FactoryBean对象，则加上&name获取。
 FactoryBean在设计上是巧妙的利用了静态代理模式。将目标类由FactoryBean进行代理。这个FactoryBean代理实现类用于处理一些复杂的逻辑最终返回目标对象。  
 说到这里，我们就知道FactoryBean和BeanFactory完全不是一个东西。BeanFactory是ioc初始化和依赖注入的核心。
 
-### 循环依赖的问题
-#### 0. 什么是循环依赖？        
+
+
+## 循环依赖的问题
+
+### 什么是循环依赖？        
+
 循环依赖指的是多个bean持有对方的引用。A引用了B、B引用了C、C引用了A，从而形成了一个闭环。这里要区别于方法的循环调用，方法a调用了方法b，方法b调用了方法c，方法c调用了方法a，循环调用是没有办法解决的，是个死循环，最终导致内存溢出。       
-#### 1. 含参构造器注入的循环依赖问题
+
+
+
+### 含参构造器注入的循环依赖问题
+
 在创建bean之前，spring会在DefaultSingletonRegistry类中调用beforeSingletonCreation方法将beanName存入到singletonsCurrentlyInCreation这个Set集合中。然后在AbstractAutowireCapableBeanFactory中调用autowireConstructor方法准备创建bean的时候，发现存在引用参数，就会递归到getBean，去创建这个引用bean，然后又回重新调用beforeSingletonCreation方法，如果在singletonsCurrentlyInCreation中发现已经存在了beanName，则表示出现了循环依赖，直接抛出异常。
-#### 2. setter方法注入的循环依赖问题
+
+
+
+### setter方法注入的循环依赖问题
+
 在创建bean之前，spring会在AbstractBeanFactory类中调用getSingleton方法，从一个叫做singletonFactories的集合中获取ObjectFactory对象，回去对应的bean实例，如果存在数据，则直接返回，如果不存在继续走下去，创建bean。然后在AbstractAutowireCapableBeanFactory中调用createInstance之后（即对象已经成功创建完成），调用populateBean方法之前（对已经创建的bean进行依赖注入），调用addSingletonFactory方法将能够获取这个bean的ObjectFactory对象存入到singletonFactories中。然后调用polulateBean方法，此处发现存在引用属性，就会递归getBean方法。此时又会调用getSingleton方法，经过了几轮调用之后，如果此时发现ObjectFactory对象获取到了已经创建的bean实例（即当前对象引用了最开始的那个依赖了自己之前的对象或者自己），直接返回，然后进行依赖注入。解决了循环依赖的问题。
 
 
@@ -217,12 +248,14 @@ FactoryBean在设计上是巧妙的利用了静态代理模式。将目标类由
 
 
 
-## Spring MVC
+# 3. Spring MVC
 
-### Spring MVC是什么？
+## Spring MVC是什么？
+
 SpringMVC是spring框架基于servlet规范下对mvc设计模式的一套完整的实现。用于解决web层的请求处理的问题。
 
-### 一句话描述SpringMVC
+## Spring MVC概述
+
 SpringMVC是spring框架下的基于servlet规范的对mvc设计模式的一套完整的实现，目的是用于解决web层的请求处理问题。    
 SpringMVC的实现原理主要有两个阶段：
 
@@ -237,10 +270,14 @@ SpringMVC的实现原理主要有两个阶段：
 
 [SpringMVC时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
 
-### 在SpringMVC之前
+
+
+## 在SpringMVC之前
+
 在SpringMVC之前，先来说一下Servlet。因为SpringMVC的开发是基于Servlet规范的。所谓的servlet规范，规定了项目结构必须要有web.xml，在web.xml中必须配置Servlet来处理用户的请求响应。在web.xml中还可以配置各种过滤器、监听器等等。
 
-### MVC的前世今生
+## MVC的前世今生
+
 什么是MVC？MVC是一种设计模式，MVC就是modal、view和controler，是基于项目开发的模式，用来解决用户和后台交互的问题。Spring MVC是spring中对mvc这一设计模式的实现。 
 1. model：传输数据的一个载体。传输数据的封装。
 2. view：视图。用来展示或者输出的模块（jsp、html、string、json、velocity、swing、xml...）。需要视图层解析器。 
@@ -274,14 +311,21 @@ DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
 ![](https://blog.ilovetj.cn/img/bed/20190510/1557456207275.png)
 
-#### 九大组件
-##### MultipartResolver
+
+
+### 九大组件
+
+#### MultipartResolver
+
 用于处理上传的组件，getBean获取并注入到DispatcherServlet中。
-##### LocaleResolver
+#### LocaleResolver
+
 用于本地化解析的组件
-##### ViewResolver
+#### ViewResolver
+
 用于结果处理的组件
-##### HandlerMapping
+#### HandlerMapping
+
 用于请求映射到具体的执行controller方法的组件。      
 
 在ioc初始化过程中，会读取配置的文件或者注解。如果存在`<mvc:annotation-driven />`，则会将`RequestMappingHandlerMapping`信息保存到ioc容器中
@@ -290,28 +334,39 @@ DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
 ![](https://blog.ilovetj.cn/img/bed/20190510/1557456219708.png)
 
-##### HandlerAdapter
+#### HandlerAdapter
+
 用于多类型参数匹配转型，并作为方法具体执行的入口
 
 在ioc初始化过程中，会读取配置的文件或者注解。如果存在`<mvc:annotation-driven />`，则会将`RequestMappingHandlerAdapter`信息保存到ioc容器中
-##### HandlerExceptionResolver
+#### HandlerExceptionResolver
+
 用于异常的组件
-##### ThemeResolver
+#### ThemeResolver
+
 主题解析
-##### RequestToViewNameTranslator
+#### RequestToViewNameTranslator
+
 直接解析请求到视图名
-##### FlashMapManager
+
+#### FlashMapManager
+
 flash映射管理器
 
 
 
-## Spring AOP
+# 4. Spring AOP
 
-### 一段话概述Spring AOP
+## Spring AOP概述
+
 spring aop是spring对aop设计思想的一个具体实现。他的具体实现是在依赖注入过程当中的。在依赖注入完成实例创建和属性注入之后，有一个initializeBean方法，通过这个方法作为入口，会查询当前bean是否存在对应的切面类，存在，则会根据不同的策略生成一个代理类，替换掉原本的那个原始bean对象返回给用户。然后用户操作这个代理类的过程就能够触发切面类相关操作了。
 
-### 简单介绍下如何使用Spring AOP
-#### 创建一个切面类需要用到的注解和配置
+
+
+## 简单介绍下如何使用Spring AOP
+
+### 创建一个切面类需要用到的注解和配置
+
 ```java
 1. 配置方式
 <aop:advisor> // 定义AOP通知器
@@ -375,7 +430,9 @@ public class ControllerAop {
 6. JoinPoint：连接点。能够获取目标对象的参数信息
 7. ProceedingJoinPoint：连接点。能够获取目标对象的信息、以及参数信息
 
-### SpringAOP的实现原理
+
+
+## SpringAOP的实现原理
 
 
 
@@ -391,26 +448,32 @@ graph LR
 SpringAOP调用链：
 ![](https://blog.ilovetj.cn/img/bed/20190510/1557456236179.png)
 
-### 主要的类
-#### AbstratAutowireCapableFactory
+
+
+## 主要的类
+
+### AbstratAutowireCapableFactory
+
 结合依赖注入，作为AOP动态代理的一个入口。在完成createBeanInstance和populateBean（创建原始bean实例和属性注入）方法之后的initializeBean方法将会返回一个代理对象给用户（如果存在切面的话）。
 
-#### AbstractAutoProxyCreator
+### AbstractAutoProxyCreator
+
 通过此对象中的createProxy方法调用ProxyFactory.getProxy方法获得对应的代理类
 
-#### JdkDynamicAopProxy
+### JdkDynamicAopProxy
+
 具体创建代理类的策略：JDK动态代理方式
 
-#### CglibAopProxy
+### CglibAopProxy
+
 具体创建代理类的策略：CGLIB动态代理方式
 
 
 
-## Spring事务
+# 5. Spring事务
 
-### 什么是spring事务
+## 什么是spring事务
 
-### 简单介绍
 在配置事务之前有两个bean是不论什么方式都要配置的：TransactionManager和DataSource。
 1. 编程式事务：将需要事务处理的代码块放入，TransactionTemplate进行事务处理。粒度小，可以细化到方法体中。
 2. 声明式事务：建立在AOP之上，在需要事务的方法之前和之后通过AOP添加事务处理，一旦发现执行失败，则回滚。存在配置方式和注解方式。粒度大，只支持方法。
@@ -421,8 +484,12 @@ SpringAOP调用链：
 
 总结：编程式事务的基础是模板方法。声明式事务的基础是面向切面编程。
 
-### 数据库连接
-#### JDBC中几个重要的类
+
+
+## 数据库连接
+
+### JDBC中几个重要的类
+
 1. Connection
   JDK提供了Connection接口，是Java客户端和数据库连接的桥梁。由各大数据库厂商自己实现这个Connection接口。底层实现是通过一个长连接Socket连接数据库的。
 
@@ -450,15 +517,23 @@ Connection --> Access
 4. ResultSet
   结果集，执行SQL之后返回的结果集
 
-### Spring事务中几个重要的类
-#### DataSourceTransactionManager
+
+
+## Spring事务中几个重要的类
+
+### DataSourceTransactionManager
+
 在这个事务管理类中存在doCommit、doRollback方法，用于真实的执行事务提交和回滚的方法。
 配置了事务相关的管理器
 
-#### TransactionTemplate
+### TransactionTemplate
+
 注入事务管理器，用户就可以使用这个事务模板进行事务操作了。提供用户一个函数式接口编写自己的数据库操作。
 
-### Spring事务的七大传播级别
+
+
+## Spring事务的七大传播级别
+
 spring事务中的传播属性是用于解决多个事务同时存在的情况下，使用哪个事务作为标准的一个问题。
 
 这些属性常量在TransactionDefinition中。
@@ -482,7 +557,7 @@ spring事务中的传播属性是用于解决多个事务同时存在的情况�
 
 
 
-# Spring各个组件
+# 6. Spring各个组件
 
 ## Spring中的过滤器
 
@@ -494,7 +569,7 @@ spring事务中的传播属性是用于解决多个事务同时存在的情况�
 
 
 
-# SpringWebFlux
+# 7. SpringWebFlux
 
 ## 是什么
 
