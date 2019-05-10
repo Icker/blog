@@ -4,6 +4,14 @@ tags: 消息队列
 categories: 分布式
 ---
 
+
+
+# 前言：kafka的前世今生
+
+
+
+
+
 # 一、概览
 
 数据为企业发展提供了基础。有了数据，就需要对数据进行分析，从而掌握更精准的信息。传统的面向用户的应用通常都是OLTP应用，采用的关系型数据库，不适合数据分析。因此需要对数据进行迁移，将数据从数据源头迁移到用以支持数据分析的地方。这就涉及到数据迁移的问题。而这个迁移的速度越快，对原有应用影响最小，就能够让专注于核心业务。
@@ -62,7 +70,7 @@ kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的�
 
 分区的存在是为了提高数据的伸缩性。同个主题的分区可以分布在不同的服务器中，也就是说一个主题横跨多个服务器，以此来提升应用性能。
 
-![](https://i.loli.net/2019/05/08/5cd22222e8656.png)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557454964855.png)
 
 我们通常会使用**流**来形容kafka这类系统的数据。很多时候，人们把一个主题上的数据看成一个流，不论其有几个分区。**流是一组从生产者移动到消费者的数据。**当我们讨论**流式处理**时，一般都是这样描述消息的。kafka streams、apache samza和storm都是以**实时**的方式处理消息，也就是所谓的**流式处理**。
 
@@ -76,7 +84,7 @@ kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的�
 
 消费者是**消费者群组**的一部分，会有一个或者多个消费者共同读取一个主题。群组保证每个分区只能被一个消费者使用。消费者和分区之间的映射关系被称为消费者对分区的**所有权关系**。如下图所示：
 
-![](https://i.loli.net/2019/05/08/5cd2223c7db7d.png)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557454992374.png)
 
 
 
@@ -86,7 +94,7 @@ kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的�
 
 broker是**集群**的组成部分。每个集群都有一个broker同时充当**集群控制器**的角色（自动从集群的活跃成员中选举出来）。控制器负责管理工作，包括将分区分配给broker和监控broker。在集群中，一个分区从属于一个broker，该broker被称为分区的**首领**。一个分区可以分配给多个broker，这个时候会发生分区复制。这种肤质机制为分区提供了消息冗余，如果一个broker失效，其他broker就可以接管领导权。相关的消费者和生产者都要重新连接到新的首领。
 
-![](https://i.loli.net/2019/05/08/5cd2229fe3020.png)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455020769.png)
 
 **保留消息**是kafka的一个重要特性。kafka默认消息保留策略：要么保留一段时间（比如7天），要么保留到消息达到一定大小的字节数（比如1G）。当消息数量达到上限时，旧消息就会过期并被删除。主题可以配置自己的保留策略。
 
@@ -102,30 +110,9 @@ broker是**集群**的组成部分。每个集群都有一个broker同时充当*
 
 
 
-## 为什么使用Kafka
-
-
-
-## 安装
-
- ```shell
-wget http://mirror.bit.edu.cn/apache/kafka/2.2.0/kafka_2.11-2.2.0.tgz
-tar -zxvf kafka_2.11-2.2.0.tgz
-cd kafka_2.11-2.2.0
-mkdir log
-cd kafka_2.11-2.2.0/config
-# 配置server.properties中的log路径和zookeeper路径
-vim server.properties
-cd ~/Documents/software/kafka_2.11-2.2.0
-# 启动。Kafka默认占用9092端口
-sh kafka-server-start.sh ../config/server.properties &
- ```
-
-
-
 # 二、生产者
 
-![](https://i.loli.net/2019/05/08/5cd222be897b5.png)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455072547.png)
 
 
 
@@ -164,6 +151,21 @@ sh kafka-server-start.sh ../config/server.properties &
 
 
 # 附录
+
+## 安装
+
+```shell
+wget http://mirror.bit.edu.cn/apache/kafka/2.2.0/kafka_2.11-2.2.0.tgz
+tar -zxvf kafka_2.11-2.2.0.tgz
+cd kafka_2.11-2.2.0
+mkdir log
+cd kafka_2.11-2.2.0/config
+# 配置server.properties中的log路径和zookeeper路径
+vim server.properties
+cd ~/Documents/software/kafka_2.11-2.2.0
+# 启动。Kafka默认占用9092端口
+sh kafka-server-start.sh ../config/server.properties &
+```
 
 
 

@@ -37,39 +37,60 @@ graph LR
 [IOC容器初始化时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
 
 ### 2 IOC几个重要的类
+
+
 #### 2.1. BeanFactory
+
 BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了IOC容器的基本功能规范。在Spring中还有很多的IOC容器的实现供用户选择和使用。
 
 以下是BeanFactory的关联关系：
 
-![](https://i.loli.net/2019/05/08/5cd226a640158.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557456089207.png)
+
+
 
 #### 2.2 DefaultListableBeanFactory
+
 `DefaultListableBeanFactory`是BeanFactory的子类，ioc容器的注册就是通过这个类实现的。
 
+
+
 #### 2.3 ApplicationContext
+
 说到BeanFactory，我们不得不提ApplicationContext。相对于BeanFactory而言，ApplicationContext定义了IOC容器的基本功能之外，还提供一些附加服务。
 1. 支持信息源，可以实现国际化。(实现 MessageSource 接口)
 2. 访问资源。(实现 ResourcePatternResolver 接口，后面章节会讲到)
 3. 支持应用事件。(实现 ApplicationEventPublisher 接口)
 
-![](https://i.loli.net/2019/05/08/5cd226b55e568.jpg)
+
+
+![](https://blog.ilovetj.cn/img/bed/20190510/1557456101798.png)
+
+
 
 #### 2.4 BeanDefinition
+
 用BeanDefinition描述Bean对象，BeanDefinition对象就是内存中的配置文件，保存了所有跟类相关的属性信息以及依赖信息。
 
 Spring的IOC容器管理了我们定义的Bean对象及其相互的关系。Bean对象在Spring实现中是以`BeanDefinition`描述的。继承体系如下：
 
-![](https://i.loli.net/2019/05/08/5cd227036114e.jpg)
+
+
+![](https://blog.ilovetj.cn/img/bed/20190510/1557456115754.png)
 
 #### 2.5 XmlBeanDefinitionReader
 spring用BeanDefinitionReader来解析Spring配置文件。
 
 spring是通过`XmlBeanDefinitionReader`的进行定位读取xml资源文件的。
 
-![](https://i.loli.net/2019/05/08/5cd227133e503.jpg)
+
+
+![](https://blog.ilovetj.cn/img/bed/20190510/1557456127391.png)
+
+
 
 #### 2.6 BeanDefinitionParserDelegate
+
 spring通过`BeanDefinitionParserDelegate`这个委派类进行bean的解析，封装成`BeanDefinition`对象，以提供spring使用。
 
 
@@ -82,6 +103,8 @@ ioc容器初始化分三个步骤：定位、加载、解析和注册。
 3. 解析是指将读取到的资源信息解析成spring定义的BeanDefinition对象信息。
     - 解析Xml对应的Document对象成BeanDefinition对象
 4. 注册是指将解析后的BeanDefinition信息注册到ioc容器中。
+
+
 
 ## 第二节：依赖注入的实现原理
 
@@ -103,16 +126,22 @@ graph LR
 
 spring的依赖注入分为3个步骤，1是创建，2是注入，3是注册。在这三个过程中，最核心的一个类是`AbstractAutowireCapableBeanFactory`，我们的bean的创建和依赖注入都在这个类中的`doCreateBean`方法中实现。`doCreateBean`方法中调用了两个最主要的方法，一个负责创建bean实例，一个负责对bean实例的属性进行赋值即依赖注入的核心实现。分别是`createBeanInstance`和`populateBean`方法。`createBeanInstance`中根据不同的策略（BeanUtils的反射创建和CGLIB的代理创建）来创建bean实例，`populateBean`针对已经创建的bean实例进行依赖关系的注入，将调用`setPropertyValues`方法进行每一个属性的赋值，过程中使用到递归调用`setPropertyValue`进行注入。当我们完成了bean的创建和所有的属性注入之后，我们就将单例bean通过`DefaultSingletonBeanRegistry`的`addSingleton`方法将创建完毕的单例bean注册到一个叫做`singletonObjects`的ConcurrentHashMap中，这个就是单例缓存。
 
-在依赖注入过程中用到了的设计模式以及实现的相关思想：递归、策略模式、装饰器模式BeanWripper、模版方法模式ObjectFactory.getSingleton     
+在依赖注入过程中用到了的设计模式以及实现的相关思想：递归、策略模式、装饰器模式BeanWripper、模版方法模式ObjectFactory.getSingleton
+
 另备注：在依赖注入过程中有个核心的实现方式就是递归。
 
 
+
 #### 1.1 依赖注入时序图
+
 [依赖注入时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
 
 
+
 ### 3 依赖注入中几个主要的类
+
 #### 3.1 AbstractBeanFactory
+
 getBean最初入口，所有getBean实际是调用了doGetBean。处理实现了FactoryBean接口的对象。
 
 #### 3.2 AbstractAutowireCapableBeanFactory
@@ -237,7 +266,7 @@ GenericServlet --> Servlet
 
 DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
-![](https://i.loli.net/2019/05/08/5cd22728cedfc.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557456207275.png)
 
 #### 九大组件
 ##### MultipartResolver
@@ -253,7 +282,7 @@ DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
 该`RequestMappingHandlerMapping`中的`mappingRegistry`全局变量中包含了url和具体的conroller方法的映射关系。
 
-![](https://i.loli.net/2019/05/08/5cd2273253d1a.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557456219708.png)
 
 ##### HandlerAdapter
 用于多类型参数匹配转型，并作为方法具体执行的入口
@@ -354,7 +383,7 @@ graph LR
 ```
 
 SpringAOP调用链：
-![](https://i.loli.net/2019/05/08/5cd2273db297e.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557456236179.png)
 
 ### 主要的类
 #### AbstratAutowireCapableFactory

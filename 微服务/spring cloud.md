@@ -197,7 +197,7 @@ ConsumerService-->提供消费者服务
 - 服务剔除-eviction
   - 默认情况下，Eureka Server在90秒内没有接收到Eureka Client的心跳，则将该服务从注册服务列表中剔除。
 - Eureka的高可用
-![](https://i.loli.net/2019/05/08/5cd225a4de5b9.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455741257.png)
 
 
 
@@ -548,7 +548,7 @@ Hystrix 是在业界表现非常好的一个熔断器模型实现的开源组件
 
 当服务的某个API接口请求失败次数在一定时间内小于阈值时，熔断器处于关闭状态，该API接口正常提供服务。当失败次数达到阈值后，Hystrix就会判定该接口出现故障，开启熔断器，此时请求该 API 接口会执行快速失败的逻辑（回退fallback方案），不执行具体的业务逻辑，请求的线程不会处于阻塞状态。处于开启状态的熔断器会在一段时间之后处于半开启状态，并将一定数量的请求执行正常逻辑。剩余的请求会执行快速失败，若执行正常逻辑的 请求失败了，则熔断器继续打开；若成功了 ，则将熔断器关闭。这样熔断器就具有了自我修复的能力。
 
-![](https://i.loli.net/2019/05/08/5cd225beb3186.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455761610.png)
 
 ## Hystrix结合Feign案例
 
@@ -679,7 +679,7 @@ public class HystrixApplication {
 
 [http://127.0.0.1:8766/hystrix](http://127.0.0.1:8766/hystrix)
 
-![](https://i.loli.net/2019/05/08/5cd225c8b27b2.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455781101.png)
 
 输入`http://127.0.0.1:8766/actuator/hystrix.stream`、2000、自定义名称
 
@@ -687,7 +687,7 @@ public class HystrixApplication {
 
 之后访问接口`http://127.0.0.1:8766/hello?name=zhangsan`。然后查看刚才那个网站，就会出现一下监控信息。
 
-![](https://i.loli.net/2019/05/08/5cd225d11b922.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455793026.png)
 
 # 六、服务网关
 
@@ -703,11 +703,9 @@ spring cloud gateway基于Filter链的方式提供了网关基本的功能，用
 
 用户发起请求，经由网关，网关通过DispatcherHandler接收请求，然后遍历HandlerMapping获取WebHandler，匹配路由信息，并通过谓语进行判断路由是否可用（路由谓语工厂）。如果可用，则通过WebHandler进行处理请求，然后经由过滤器链，路由到业务服务处理业务。
 
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455811314.png)
 
-
-![](https://i.loli.net/2019/05/08/5cd225e9bcad1.jpg)
-
-![](https://i.loli.net/2019/05/08/5cd225f2eb554.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455838834.png)
 
 ## 三大过滤器类型
 
@@ -806,7 +804,7 @@ spring:
 
 
 
-![](https://i.loli.net/2019/05/08/5cd2261c34d76.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455854932.png)
 
 ## Sleuth + Zipkin案例
 
@@ -815,7 +813,7 @@ Spring Cloud Sleuth有两种方式整合Zipkin。
 - Http直连方式
 - MQ方式
 
-![](https://i.loli.net/2019/05/08/5cd22628d1f61.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455870534.png)
 
 主要分成四个模块，一个Eureka Server，一个Zipkin Server，一个服务生产者，一个Gateway。
 
@@ -973,9 +971,9 @@ public class ZipkinGatewayApplication {
 
 搭建系统之后，依次启动eureka-server、zipkin server、zipkin provider、zipkin gateway。在浏览器上访问`http://10.0.7.151:8769/user-api/hi`，然后访问`http://127.0.0.1:9411/zipkin/`就可以查看到服务调用链了。
 
-![](https://i.loli.net/2019/05/08/5cd22639da4aa.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455889239.png)
 
-![](https://i.loli.net/2019/05/08/5cd226417a4bf.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455909908.png)
 
 ### Spring Cloud Sleuth通过RabbitMQ方式整合zipkin
 
@@ -1163,11 +1161,11 @@ public class ZipkinRabbitGatewayApplication {
 
 #### 4. 运行系统
 
-![](https://i.loli.net/2019/05/08/5cd2265cb9d69.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455925123.png)
 
-![](https://i.loli.net/2019/05/08/5cd22664b9508.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455944206.png)
 
-![](https://i.loli.net/2019/05/08/5cd2267384323.jpg)
+![](https://blog.ilovetj.cn/img/bed/20190510/1557455960235.png)
 
 # 八、Stream消息整合
 
