@@ -12,11 +12,11 @@ date: 2019-04-23 17:11:23
 
 
 
-# 第一部分：Spring核心源码分析
+# Spring核心源码分析
 
-## 第一节：Spring IOC容器初始化原理
+## Spring IOC容器初始化原理
 
-### 1 一段话描述IOC容器初始化流程
+### 一段话描述IOC容器初始化流程
 ioc容器初始化分四个步骤：定位、加载、解析和注册。
 1. 定位是指定位Resource资源信息。
 2. 加载是指读取定位到资源信息成Document对象。
@@ -35,16 +35,8 @@ graph LR
 
 
 
-#### 1.1 IOC容器初始化时序图
-
-[IOC容器初始化时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
-
-
-
-### 2 IOC几个重要的类
-
-
-#### 2.1. BeanFactory
+### IOC几个重要的类
+#### BeanFactory
 
 BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了IOC容器的基本功能规范。在Spring中还有很多的IOC容器的实现供用户选择和使用。
 
@@ -54,13 +46,13 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 
 
 
-#### 2.2 DefaultListableBeanFactory
+#### DefaultListableBeanFactory
 
 `DefaultListableBeanFactory`是BeanFactory的子类，ioc容器的注册就是通过这个类实现的。
 
 
 
-#### 2.3 ApplicationContext
+#### ApplicationContext
 
 说到BeanFactory，我们不得不提ApplicationContext。相对于BeanFactory而言，ApplicationContext定义了IOC容器的基本功能之外，还提供一些附加服务。
 1. 支持信息源，可以实现国际化。(实现 MessageSource 接口)
@@ -73,7 +65,7 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 
 
 
-#### 2.4 BeanDefinition
+#### BeanDefinition
 
 用BeanDefinition描述Bean对象，BeanDefinition对象就是内存中的配置文件，保存了所有跟类相关的属性信息以及依赖信息。
 
@@ -83,7 +75,7 @@ Spring的IOC容器管理了我们定义的Bean对象及其相互的关系。Bean
 
 ![](https://blog.ilovetj.cn/img/bed/20190510/1557456115754.png)
 
-#### 2.5 XmlBeanDefinitionReader
+#### XmlBeanDefinitionReader
 spring用BeanDefinitionReader来解析Spring配置文件。
 
 spring是通过`XmlBeanDefinitionReader`的进行定位读取xml资源文件的。
@@ -94,12 +86,14 @@ spring是通过`XmlBeanDefinitionReader`的进行定位读取xml资源文件的�
 
 
 
-#### 2.6 BeanDefinitionParserDelegate
+#### BeanDefinitionParserDelegate
 
 spring通过`BeanDefinitionParserDelegate`这个委派类进行bean的解析，封装成`BeanDefinition`对象，以提供spring使用。
 
 
-### 3 IOC容器初始化的过程
+
+### IOC容器初始化的过程
+
 ioc容器初始化分三个步骤：定位、加载、解析和注册。
 1. 定位
     - 将具体的文件路径封装成Resource对象
@@ -111,9 +105,15 @@ ioc容器初始化分三个步骤：定位、加载、解析和注册。
 
 
 
-## 第二节：依赖注入的实现原理
+### IOC容器初始化时序图
 
-### 1. 一段话描述依赖注入的过程
+[IOC容器初始化时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
+
+
+
+## 依赖注入的实现原理
+
+### 一段话描述依赖注入的过程
 依赖注入的整个过程分为三个步骤：创建、依赖注入和注册
 1. 创建
     - 通过反射或者cglib策略读取ioc容器中的BeanDefinition的bean信息，实例化成对应的bean
@@ -137,22 +137,16 @@ spring的依赖注入分为3个步骤，1是创建，2是注入，3是注册。�
 
 
 
-#### 1.1 依赖注入时序图
+### 依赖注入中几个主要的类
 
-[依赖注入时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
-
-
-
-### 3 依赖注入中几个主要的类
-
-#### 3.1 AbstractBeanFactory
+#### AbstractBeanFactory
 
 getBean最初入口，所有getBean实际是调用了doGetBean。处理实现了FactoryBean接口的对象。
 
-#### 3.2 AbstractAutowireCapableBeanFactory
+#### AbstractAutowireCapableBeanFactory
 doCreateBean终极完全入口。创建bean实例，提前暴露ObjectFactory，实现依赖注入三大操作的终极完全入口。
 
-#### 3.3 DefaultSingletonBeanRegistry
+#### DefaultSingletonBeanRegistry
 各种创建中或者已经创建依赖完成的bean对象的容器。
 ```java
 /** Cache of singleton objects: bean name --> bean instance */
@@ -175,7 +169,16 @@ private final Set<String> singletonsCurrentlyInCreation =
 		Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 ```
 
+
+
+### 依赖注入时序图
+
+[依赖注入时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
+
+
+
 ## IOC容器初始化和依赖注入的扩展
+
 ### lazy-init
 spring的lazy-init默认是false，即模式采用的是初始化完成之后就会进行依赖注入。
 ```java
@@ -214,7 +217,7 @@ FactoryBean在设计上是巧妙的利用了静态代理模式。将目标类由
 
 
 
-## 第三节：Spring MVC
+## Spring MVC
 
 ### Spring MVC是什么？
 SpringMVC是spring框架基于servlet规范下对mvc设计模式的一套完整的实现。用于解决web层的请求处理的问题。
@@ -234,10 +237,10 @@ SpringMVC的实现原理主要有两个阶段：
 
 [SpringMVC时序图](https://www.processon.com/view/5c3443c6e4b056ae29e5f7ff)
 
-### 0. 在SpringMVC之前
+### 在SpringMVC之前
 在SpringMVC之前，先来说一下Servlet。因为SpringMVC的开发是基于Servlet规范的。所谓的servlet规范，规定了项目结构必须要有web.xml，在web.xml中必须配置Servlet来处理用户的请求响应。在web.xml中还可以配置各种过滤器、监听器等等。
 
-### 1. MVC的前世今生
+### MVC的前世今生
 什么是MVC？MVC是一种设计模式，MVC就是modal、view和controler，是基于项目开发的模式，用来解决用户和后台交互的问题。Spring MVC是spring中对mvc这一设计模式的实现。 
 1. model：传输数据的一个载体。传输数据的封装。
 2. view：视图。用来展示或者输出的模块（jsp、html、string、json、velocity、swing、xml...）。需要视图层解析器。 
@@ -252,10 +255,8 @@ M：支持将url参数自动封装为一个Object或者Map。
 V：自己只有一个默认的Template、支持扩展，可以自定义View、自定义解析器       
 C：做到把限制放宽了，任何一个类，都可能是一个controller。       
 
-### 2. 几个重要的类
-#### DispatcherServlet、FrameServlet、HttpServletBean、HttpServlet、Servlet
-
-
+### 几个重要的类
+DispatcherServlet、FrameServlet、HttpServletBean、HttpServlet、Servlet
 
 ```mermaid
 
@@ -304,7 +305,7 @@ flash映射管理器
 
 
 
-## 第四节：Spring AOP
+## Spring AOP
 
 ### 一段话概述Spring AOP
 spring aop是spring对aop设计思想的一个具体实现。他的具体实现是在依赖注入过程当中的。在依赖注入完成实例创建和属性注入之后，有一个initializeBean方法，通过这个方法作为入口，会查询当前bean是否存在对应的切面类，存在，则会根据不同的策略生成一个代理类，替换掉原本的那个原始bean对象返回给用户。然后用户操作这个代理类的过程就能够触发切面类相关操作了。
@@ -405,7 +406,7 @@ SpringAOP调用链：
 
 
 
-## 第五节：Spring事务
+## Spring事务
 
 ### 什么是spring事务
 
@@ -450,11 +451,11 @@ Connection --> Access
   结果集，执行SQL之后返回的结果集
 
 ### Spring事务中几个重要的类
-#### 1. DataSourceTransactionManager
+#### DataSourceTransactionManager
 在这个事务管理类中存在doCommit、doRollback方法，用于真实的执行事务提交和回滚的方法。
 配置了事务相关的管理器
 
-#### 2. TransactionTemplate
+#### TransactionTemplate
 注入事务管理器，用户就可以使用这个事务模板进行事务操作了。提供用户一个函数式接口编写自己的数据库操作。
 
 ### Spring事务的七大传播级别
@@ -481,11 +482,11 @@ spring事务中的传播属性是用于解决多个事务同时存在的情况�
 
 
 
-# 第二部分：Spring各个组件
+# Spring各个组件
 
-## 第一节：Spring中的过滤器
+## Spring中的过滤器
 
-### 1. HiddenHttpMethodFilter
+### HiddenHttpMethodFilter
 
 作用：spring mvc本身是支持 GET/POST/DELETE/PUT 等请求method的，但是某些客户端（浏览器）不支持DELETE和PUT。因此从spring 3.0开始，spring引入了`HiddenHttpMethodFilter`用于处理这个问题。
 
@@ -493,9 +494,9 @@ spring事务中的传播属性是用于解决多个事务同时存在的情况�
 
 
 
-# 第三部分：SpringWebFlux
+# SpringWebFlux
 
-## 第一节：是什么
+## 是什么
 
 Spring WebFlux就是spring推出的一款reactive编程框架，剔除了对ServletAPI的依赖，采取流式函数式编程，以发布订阅驱动（观察者模式），实现同步/异步非阻塞。
 
