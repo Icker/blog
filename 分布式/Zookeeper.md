@@ -37,7 +37,7 @@ ZooKeeper主要被应用在HBase\Solr\Kafka等系统上
 
 zookeeper的数据结构是结构化存储方式。和文件系统的目录结构一样，只不过并不是真正的文件目录，而是在一个文件下应用了文件系统中的这些原理。zookeeper中的每一个节点被称为zNode。
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455141559.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455141559.png)
 
 节点类型
 

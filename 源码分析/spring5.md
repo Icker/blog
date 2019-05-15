@@ -48,7 +48,7 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 
 以下是BeanFactory的关联关系：
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456089207.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456089207.png)
 
 
 
@@ -67,7 +67,7 @@ BeanFactory是最基本的IOC容器接口，是最顶层的接口，他定义了
 
 
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456101798.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456101798.png)
 
 
 
@@ -79,7 +79,7 @@ Spring的IOC容器管理了我们定义的Bean对象及其相互的关系。Bean
 
 
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456115754.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456115754.png)
 
 
 
@@ -91,7 +91,7 @@ spring是通过`XmlBeanDefinitionReader`的进行定位读取xml资源文件的�
 
 
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456127391.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456127391.png)
 
 
 
@@ -309,7 +309,7 @@ GenericServlet --> Servlet
 
 DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456207275.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456207275.png)
 
 
 
@@ -332,7 +332,7 @@ DispatcherServlet功能主要是初始化各种组件、请求转发处理。
 
 该`RequestMappingHandlerMapping`中的`mappingRegistry`全局变量中包含了url和具体的conroller方法的映射关系。
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456219708.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456219708.png)
 
 #### HandlerAdapter
 
@@ -446,7 +446,7 @@ graph LR
 ```
 
 SpringAOP调用链：
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456236179.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456236179.png)
 
 
 

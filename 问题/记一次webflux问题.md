@@ -120,7 +120,7 @@ return chain.filter(exchange.mutate().request(request).build());
 
 然后我开始打断点。端点排查中发现在代码`String value = request.getQueryParams().getFirst(name);`处，参数url的值就已经发生了变化。
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455990635.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455990635.png)
 
 显然，在获取参数的过程中，发生了转码。到这里，可以发现是spring对请求信息做了操作。我们再深入代码进行查看，在`org.springframework.http.server.reactive.AbstractServerHttpRequest`中：
 
@@ -221,11 +221,11 @@ query.append("&");
 
 老的URI对uri
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456007962.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456007962.png)
 
 新的URI对象newUri
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456019458.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456019458.png)
 
 
 
@@ -237,7 +237,7 @@ URI newUri = UriComponentsBuilder.fromUri(uri).replaceQuery(query).build(false).
 
 这里调用了4个方法，按照以往的经验，要排查就得一个一个看过去问题出在了哪里。但是，这个时候，我们发现了IDEA这款工具的强大，它为我们显示了入参的名称：
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557456035037.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557456035037.png)
 
 发现build的参数是encoded，那么我们就有理由怀疑，这个encoded表示是否已经加码过。于是我点进去看源码。
 

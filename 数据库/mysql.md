@@ -9,7 +9,7 @@ date: 2019-04-23 17:11:23
 
 ## 一、MySQL体系结构
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455224102.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455224102.png)
 
 客户端通过MySQL的连接管理进行身份认证和相关连接处理。认证之后通过SqlInterface统一接收SQL，如果存在缓存，则从缓存中查询对应的数据并返回，如果缓存中没有数据，则通过解析器解析SQL，解析成优化器使用的解析树，通过优化器进行优化，然后调用存储引擎提供的API进行相应数据操作并返回结果。
 
@@ -38,11 +38,11 @@ date: 2019-04-23 17:11:23
 
 几个存储引擎的对比。
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455243768.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455243768.png)
 
 ### 查询的整个过程
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455256354.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455256354.png)
 
 #### 1. 客户端/服务器通信阶段
 ##### 通讯方式
@@ -58,10 +58,10 @@ date: 2019-04-23 17:11:23
 #### 2. 查询缓存
 此缓存和mybatis的二级缓存类似，都是将之前查询过的数据保存到缓存中。便于下次查询直接从缓存中提取。只要更新了同一张表的数据，就会把这张表的所有缓存都会清空。      
 通过`show variables like 'query_cache%'`查询缓存状态以及缓存的最大处理量等信息
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455278064.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455278064.png)
 使用`show status like 'QCache'`查询缓存命中使用状态
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455297035.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455297035.png)
 
 问题：
 
@@ -118,14 +118,14 @@ set global long_query_time = 0.1;
 二分查找的方式，效率提高很多。
 1. 二叉查询树
 2. 平衡二叉树
-  ![](https://blog.ilovetj.cn/img/bed/20190510/1557455317867.png)
+  ![](https://blog.airaccoon.cn/img/bed/20190510/1557455317867.png)
 
 平衡二叉树的缺陷还是很明显的：
 1. 太深了：因为是逐个节点加载的。数据所处的高度（深度）决定了他的IO次数，IO操作耗时大。
 2. 太小了：每一块磁盘块（节点）存储的数据量太小了。比如10的哪一个只存储了数据的磁盘地址。
 
 3. 多路平衡查找树（B-Tree）
-  ![](https://blog.ilovetj.cn/img/bed/20190510/1557455333245.png)
+  ![](https://blog.airaccoon.cn/img/bed/20190510/1557455333245.png)
   此图的三路只是例子，其实是n路。该B-Tree解决了平衡二叉树的两个问题。
 - io操作相对少了
 - 每个节点的数据量多了
@@ -134,7 +134,7 @@ set global long_query_time = 0.1;
 
 4. 加强版多路平衡查找树（B+Tree）
     - mysql中的B+Tree
-      ![](https://blog.ilovetj.cn/img/bed/20190510/1557455375045.png)
+      ![](https://blog.airaccoon.cn/img/bed/20190510/1557455375045.png)
       n的数值是根据数据的个数决定的。
 
 和B-Tree的区别：
@@ -152,12 +152,12 @@ B+Tree的优点：
 
 #### B-Tree索引
 innodb是以主键为索引组织数据的存储。
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455385968.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455385968.png)
 
 聚集索引（聚簇索引）
 
 根据辅助索引找到主键索引的值，然后根据主键索引进行查询数据。为了保证数据做了迁移，不需要修改辅助索引。这就是设计初衷。
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455408684.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455408684.png)
 
 > Tips：如果没有创建主键。InnoDB系统会自动创建一个隐式的主键，用户不可见。
 
@@ -222,7 +222,7 @@ update system_account set balance = balance + 100 where id = 1;
 ## 四、锁
 ### 锁的作用是什么
 锁是用于管理不同事务对共享资源的并发访问。
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455425847.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455425847.png)
 
 [InnoDB锁官网介绍](https://dev.mysql.com/doc/refman/5.7/en/innodb-locking.html)
 
@@ -260,17 +260,17 @@ update system_account set balance = balance + 100 where id = 1;
     - 当sql按照索引进行数据检索时，查询条件范围查询（between and、>、<等），且查询时有数据命中，则此SQL加的锁是next-key lock锁。锁住索引的记录和区间（左开右闭）。
     - next-key lock = gap lock + record lock
     - 是InnoDB默认的行级锁算法
-      ![](https://blog.ilovetj.cn/img/bed/20190510/1557455443006.png)
+      ![](https://blog.airaccoon.cn/img/bed/20190510/1557455443006.png)
 
 2. Gap Locks（间隙锁）：只针对不存在数据的区间
     - 锁住索引数据不存在的区间（左开右开）
     - 当sql按照索引进行数据检索时，查询条件的数据不存在，这是加上的锁就是gap-lock（间隙锁）。锁住索引不存在的区间（左开右开）。
-      ![](https://blog.ilovetj.cn/img/bed/20190510/1557455480546.png)
+      ![](https://blog.airaccoon.cn/img/bed/20190510/1557455480546.png)
 
 3. Record Locks（记录锁）
     - 锁住具体的索引项
     - 当sql执行按照唯一性索引进行检索时，查询数据等值匹配且查询的数据存在，则该sql加的锁是记录锁（record lock），锁住具体的索引项。
-      ![](https://blog.ilovetj.cn/img/bed/20190510/1557455499381.png)
+      ![](https://blog.airaccoon.cn/img/bed/20190510/1557455499381.png)
 
 ### 锁实际锁了什么？
 InnoDB上的行锁实际上是通过给在索引上索引项加上锁来实现的。
@@ -302,7 +302,7 @@ MVCC是多版本并发控制。通过保存数据在某个时间点的快照来�
 
 **临键锁（next-key lock）解决当前读的幻读问题。MVCC解决快照读的幻读问题。**
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455517276.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455517276.png)
 
 ### MVCC重点
 数据行版本号<=当前事务版本号
@@ -342,7 +342,7 @@ undo日志是为了事务回滚、实现MVCC。
 undo log记录了mysql数据的所有的历史版本信息。在事务开启之前，首先会把需要操作的数据被分到undo log中，然后操作数据本身的修改。
 
 mysql的undo log在innodb中实现多版本并发控制：在事务开始之前，将需要操作的数据备份到undolog中，这些undolog中的数据就可以作为数据快照作为其他并发事务的快照读的来源。
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455591461.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455591461.png)
 
 #### redo log
 ##### 是什么
@@ -355,11 +355,11 @@ mysql的undo log在innodb中实现多版本并发控制：在事务开始之前�
 因此，在断电，或者发生故障的情况下，有可能已经写入了redo日志，而没有磁盘写入，在mysql服务重启过程中会读取redo日志进行持久化操作。
 
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455610535.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455610535.png)
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455649164.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455649164.png)
 
-![](https://blog.ilovetj.cn/img/bed/20190510/1557455635630.png)
+![](https://blog.airaccoon.cn/img/bed/20190510/1557455635630.png)
 
 [MVCC的参考网站](https://www.cnblogs.com/chenpingzhao/p/5065316.html)
 [MVCC参考网站](https://www.jianshu.com/p/b7e740e27b7e)
