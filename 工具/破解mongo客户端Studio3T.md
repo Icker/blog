@@ -31,4 +31,3 @@ cd /Applications/Studio3T.app/Contents/Resources/app
 java -jar -XstartOnFirstThread ./studio-3t-start-2019-2.1.jar
 # 执行完成后，会报错，同时自动打开Studio3T应用。不用管错误，新打开的应用就是破解了的。
 ```
-
