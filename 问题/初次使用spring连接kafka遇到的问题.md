@@ -1,5 +1,5 @@
 ---
-title: 初次使用spring连接kafka遇到的问题:org.apache.kafka.clients.networkclient broker may not be available
+title: 初次使用spring连接kafka遇到的问题
 tags: 
 - 问题
 - kafka
@@ -10,7 +10,9 @@ categories:
 
 
 
-# 初次使用spring连接kafka遇到的问题:org.apache.kafka.clients.networkclient broker may not be available
+# 初次使用spring连接kafka遇到的问题
+
+org.apache.kafka.clients.networkclient broker may not be available
 
 初次安装kafka，并通过项目连接，一直提示错误，连接不上kafka。
 
