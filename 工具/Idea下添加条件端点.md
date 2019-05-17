@@ -3,7 +3,9 @@ title: Idea下添加条件断点
 tags: 
   - 工具
   - Idea
-categories: 工具
+categories: 
+- 工具
+- Idea
 ---
 
 
