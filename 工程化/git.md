@@ -22,3 +22,11 @@ categories: 工程化
 - `git push`: 发布到远程
 - `git branch -aa`: 查看远程分支，并定位到当前分支
 
+
+
+## 查看远程信息
+
+```shell
+git remote -v
+```
+
