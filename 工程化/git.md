@@ -30,3 +30,35 @@ categories: 工程化
 git remote -v
 ```
 
+
+
+# 解决每次pull都要输入账号密码的问题
+
+## 第一步
+
+执行以下命令
+
+```shell
+git config --global credential.helper store
+```
+
+执行完成后，~/.gitconfig`文件中会多出来一行
+
+```shell
+[credential]
+        helper = store
+```
+
+## 第二步
+
+执行`git pull`再次输入账号密码，之后就不需要输入密码了。
+
+此时在`/root/.git-credentials`文件中会多出一行
+
+```shell
+http://账号名:输入的密码@IP:PORT
+```
+
+
+
+完成上述两步，就解决了这一问题

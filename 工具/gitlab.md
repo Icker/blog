@@ -89,3 +89,22 @@ gitlab_rails['smtp_tls'] = false
 ```
 
 ![](https://blog.airaccoon.cn/img/bed/20190519/1558235774428.png)
+
+
+
+# gitlab和远程仓库同步
+
+## 和github同步
+
+首先打开gitlab中想要同步的项目，在Settings中选中Repository。
+
+![](https://blog.airaccoon.cn/img/bed/20190519/1558241958538.png)
+
+然后选中`Push to a remote repository`，勾选`remote mirror repository`，并以指定格式输入github仓库地址。
+
+![](https://blog.airaccoon.cn/img/bed/20190519/1558241997768.png)
+
+
+
+这样，在每次push之后，gitlab就会自动同步到github上去。
+
