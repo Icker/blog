@@ -32,6 +32,20 @@ git remote -v
 
 
 
+## 本地代码提交到远程仓库
+
+```shell
+git init
+git add .
+git commit -m '初始化'
+git remote add origin http://IP:PORT/XXX.git
+git push -f -u origin master
+```
+
+
+
+
+
 # 解决每次pull都要输入账号密码的问题
 
 ## 第一步
