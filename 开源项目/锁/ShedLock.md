@@ -13,7 +13,7 @@ categories:
 
 ShedLock是一款基于Java的开源项目，发布在github上：[https://github.com/lukas-krecan/ShedLock](https://github.com/lukas-krecan/ShedLock)
 
-ShedLock是为定时任务设计的一款锁。保证分布式环境下，同一时间同一任务只执行一次。
+ShedLock是为定时任务设计的一款锁。保证集群环境下，同一时间同一任务只执行一次。
 
 一个任务只要在某一个节点上运行了，那么它就会获取一个锁，从而防止其他节点或线程上执行同一任务。
 
@@ -21,7 +21,7 @@ ShedLock是为定时任务设计的一款锁。保证分布式环境下，同一
 
 
 
-ShedLock支持多种外部存储形式来进行分布式协调。比如redis、mongo、jdbc数据库、zookeeper等。
+ShedLock支持多种外部存储形式来进行协调。比如redis、mongo、jdbc数据库、zookeeper等。
 
 
 
@@ -126,6 +126,20 @@ public class DemoTask {
   - PT10M表示超时时间10分钟
   - PT10S表示超时时间10秒
 - lockAtLeastForString
+
+
+
+## 判断是否加锁和释放锁
+
+查看日志可以发现：
+
+```verilog
+2019-05-21 16:30:00.031 -DEBUG 7571 --- n.j.s.core.DefaultLockingTaskExecutor    #54     :  Locked 'reSendMessageTask', lock will be held at most until 2019-05-21T08:40:00.004Z
+
+2019-05-21 16:30:00.111 -DEBUG 7571 --- n.j.s.core.DefaultLockingTaskExecutor    #64     :  Task finished, lock 'reSendMessageTask' released
+```
+
+
 
 
 
