@@ -269,6 +269,12 @@ spring提供了一个专门的项目支持kafka：spring-kafka
 ```
 spring boot结合kafka就需要引入以下包：
 ```xml
+<parent>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-parent</artifactId>
+  <version>2.1.5.RELEASE</version>
+</parent>
+
 <dependencies>
   <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -327,8 +333,12 @@ public class KafkaProducerService {
   
   public void producer() {
     String value = "测试数据_" + LocalTime.now().toString();
+    String key = LocalTime.now().toString();
+    // 发送消息
     ListenableFuture<SendResult<String, String>> result = 
-      kafkaTemplate.send("SpringBootTopic", LocalTime.now().toString(), value);
+      kafkaTemplate.send("SpringBootTopic", key, value);
+
+    // 消息发送成功或者失败的回调处理
     result.addCallback(successResult -> {
       log.info("成功: {}", successResult.getProducerRecord());
     }, failResult -> {

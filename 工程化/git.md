@@ -14,7 +14,7 @@ categories: 工程化
 
 
 
-# git 命令
+# git常用命令
 
 - `glol`：查看历史记录
 - `git pull `: 更新
@@ -40,6 +40,33 @@ git add .
 git commit -m '初始化'
 git remote add origin http://IP:PORT/XXX.git
 git push -f -u origin master
+```
+
+
+
+## 新建分支
+
+```shell
+# 创建本地分支
+git branch /branch/project-v0.0.1
+# push到远程
+git push orgin /branch/project-v0.0.1
+# 拉取远程分支
+git checkout /branch/project-v0.0.1
+# 设置当前pull、push的默认分支为新增的分支
+git branch --set-upstream-to=origin/branch/project-v0.0.1
+
+```
+
+
+
+## 删除分支
+
+```shell
+# 删除本地分支
+git branch -D branch/project-v0.0.1
+# 删除远程分支
+git push origin --delete branch/project-v0.0.1 
 ```
 
 
