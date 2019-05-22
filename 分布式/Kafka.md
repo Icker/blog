@@ -118,20 +118,147 @@ broker是**集群**的组成部分。每个集群都有一个broker同时充当*
 
 # 二、生产者
 
-1. 开发者可以使用Kafka内置API生产消息。
-
-## 重要概念
-
-1. KafkaProducer
-2. ProducerRecords
-
-
-
 ![](https://blog.airaccoon.cn/img/bed/20190510/1557455072547.png)
+
+## Kafka API
+
+```java
+/**
+ * @author: raccoon
+ * @date: 2019-05-20 14:02
+ * @description: kafka生产者客户端测试
+ */
+@Slf4j
+public class KafkaProducerTest {
+  @Test
+  public void producerTest() throws InterruptedException {
+    // 初始化生产者
+    KafkaProducer<String, String> producer = init();
+    // 创建消息
+    ProducerRecord<String, String> record = createRecord();
+    // 发送消息
+    CountDownLatch latch = new CountDownLatch(1);
+    producer.send(record, (rm, e) -> {
+      log.info("回调：{}", rm);
+      latch.countDown();
+    });
+    latch.await();
+  }
+  private KafkaProducer<String, String> init() {
+    Map<String, Object> configs = new HashMap<>(8);
+    configs.put("bootstrap.servers", KafkaConfig.SERVER);
+    // 为生产者设置请求确认策略
+    configs.put("acks", KafkaConfig.ACKS_ALL);
+    // 设置发布失败重试次数
+    configs.put("retries", KafkaConfig.RETRIES);
+    // 设置消息批次缓存大小。批次是生产者批量发送消息的基本单位。
+    configs.put("batch.size", KafkaConfig.BATCH_SIZE);
+    // 设置批次发送时间间隔。批次发送时间间隔默认0ms。
+    // 消息批次发送满足batch.size和linger.ms中的任意一个就会发送消息
+    configs.put("linger.ms", KafkaConfig.LINGER_MS);
+    // 设置生产者可以支配的内存总量
+    configs.put("buffer.memory", KafkaConfig.BUFFER_MEMORY);
+    // 设置KEY的序列化器
+    configs.put("key.serializer", KafkaConfig.KEY_SERIALIZER);
+    // 设置VALUE的序列化器
+    configs.put("value.serializer", KafkaConfig.VALUE_SERIALIZER);
+
+    return new KafkaProducer<>(configs);
+  }
+  private ProducerRecord<String, String> createRecord() {
+    // 设置Kafka主题
+    String topic = KafkaConfig.TOPIC;
+    // 消息KEY
+    String key = KafkaConfig.getKey(LocalTime.now().toString());
+    // 消息值
+    String value = "测试数据_" + LocalTime.now().toString();
+    // 设置分区
+    Integer partition = KafkaConfig.PARTITION;
+    // 时间戳
+    Long timestamp = System.currentTimeMillis();
+    // 在指定主题下创建指定分区下的键值对
+    // return new ProducerRecord<>(topic, partition, timestamp, key, value);
+    // 在指定主题下创建一个没有分区的键值对
+    return new ProducerRecord<>(topic, key, value);
+  }
+}
+```
+
+```java
+public class KafkaConfig {
+  public final static String SERVER = "127.0.0.1:9092";
+  public final static String ACKS_ALL = "all";
+  public final static Integer RETRIES = 5;
+  public final static String TOPIC = "BaseTopic";
+  public final static Integer PARTITION = 1;
+  public final static String PREFIX = "BASE_";
+  public final static Integer BATCH_SIZE = 16384;
+  public final static Integer LINGER_MS = 1;
+  public final static Integer BUFFER_MEMORY = 33554432;
+  public final static String KEY_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
+  public final static String VALUE_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
+  public final static String KEY_DE_SERIALIZER = "org.apache.kafka.common.serialization.StringDeserializer";
+  public final static String VALUE_DE_SERIALIZER = "org.apache.kafka.common.serialization.StringDeserializer";
+  public final static String getKey(String key) {
+    return PREFIX + key;
+  }
+}
+```
+
+
 
 
 
 # 三、消费者
+
+
+
+## Kafka API
+
+```java
+/**
+ * @author: raccoon
+ * @date: 2019-05-20 14:02
+ * @description: kafka生产者客户端测试
+ */
+@Slf4j
+public class KafkaConsumerTest {
+  @Test
+  public void consumerTest() {
+    KafkaConsumer<String, Object> consumer = init();
+    // 使用预订/分配API之一获取指定的主题或分区的数据。 如果在轮询数据之前未预订主题，这将返回错误。
+    while (true) {
+      ConsumerRecords<String, Object> records = 
+        consumer.poll(Duration.of(10, ChronoUnit.SECONDS));
+      if(!records.isEmpty()) {
+        for (ConsumerRecord<String, Object> record : records) {
+          log.info("结果：partition = {}, offset = {}, key = {}, value = {}", record.partition(), record.offset(), record.key(), record.value());
+        }
+      }
+    }
+  }
+  private KafkaConsumer<String, Object> init() {
+    Map<String, Object> configs = new HashMap<>(8);
+    configs.put("bootstrap.servers", KafkaConfig.SERVER);
+    // 将单个消费者分配给组
+    configs.put("group.id", "test");
+    // 如果值为true，则为偏移启用自动落实，否则不提交。
+    configs.put("enable.auto.commit", "true");
+    // 返回更新的消耗偏移量写入ZooKeeper的频率。
+    configs.put("auto.commit.interval.ms", "1000");
+    // 表示Kafka在放弃和继续消费消息之前等待ZooKeeper响应请求(读取或写入)多少毫秒。
+    configs.put("session.timeout.ms", "30000");
+    configs.put("key.deserializer", KafkaConfig.KEY_DE_SERIALIZER);
+    configs.put("value.deserializer", KafkaConfig.VALUE_DE_SERIALIZER);
+    KafkaConsumer<String, Object> consumer = new KafkaConsumer<>(configs);
+    List<String> topics = new ArrayList<>();
+    topics.add(KafkaConfig.TOPIC);
+    // 订阅主题
+    consumer.subscribe(topics);
+    return consumer;
+  }
+}
+```
 
 
 
