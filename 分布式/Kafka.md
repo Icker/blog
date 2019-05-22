@@ -116,11 +116,13 @@ broker是**集群**的组成部分。每个集群都有一个broker同时充当*
 
 
 
-# 二、生产者
+# 三、应用
 
 ![](https://blog.airaccoon.cn/img/bed/20190510/1557455072547.png)
 
-## Kafka API
+## 直接使用Kafka API
+
+### 生产者
 
 ```java
 /**
@@ -206,14 +208,7 @@ public class KafkaConfig {
 ```
 
 
-
-
-
-# 三、消费者
-
-
-
-## Kafka API
+### 消费者
 
 ```java
 /**
@@ -259,6 +254,106 @@ public class KafkaConsumerTest {
   }
 }
 ```
+
+
+
+
+## Spring Boot 结合 Kafka
+
+spring提供了一个专门的项目支持kafka：spring-kafka
+```xml
+<dependency>
+  <groupId>org.springframework.kafka</groupId>
+  <artifactId>spring-kafka</artifactId>
+</dependency>
+```
+spring boot结合kafka就需要引入以下包：
+```xml
+<dependencies>
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+  </dependency>
+</dependencies>
+```
+
+### 配置
+
+```yaml
+spring:
+  application:
+    name: kafka-spring
+  kafka:
+    producer:
+      bootstrap-servers: 127.0.0.1:9092
+      acks: all
+      retries: 5
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: 127.0.0.1:9092
+      group-id: test
+      enable-auto-commit: true
+      auto-commit-interval: 1000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+server:
+  port: 8080
+
+```
+
+
+
+### 生产者
+
+```java
+@Slf4j
+@Service
+public class KafkaProducerService {
+
+  @Autowired
+  private KafkaTemplate kafkaTemplate;
+  
+  public void producer() {
+    String value = "测试数据_" + LocalTime.now().toString();
+    ListenableFuture<SendResult<String, String>> result = 
+      kafkaTemplate.send("SpringBootTopic", LocalTime.now().toString(), value);
+    result.addCallback(successResult -> {
+      log.info("成功: {}", successResult.getProducerRecord());
+    }, failResult -> {
+      log.info("失败: {}", failResult.getMessage());
+    });
+  }
+}
+```
+
+
+
+### 消费者
+
+```java
+@Slf4j
+@Component
+public class KafkaConsumerListener {
+  
+  @KafkaListener(topics = "SpringBootTopic")
+  public void listener(String content) {
+    log.info("接收Kafka消息：{}", content);
+  }
+}
+```
+
 
 
 
