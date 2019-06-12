@@ -55,7 +55,6 @@ git push orgin /branch/project-v0.0.1
 git checkout /branch/project-v0.0.1
 # 设置当前pull、push的默认分支为新增的分支
 git branch --set-upstream-to=origin/branch/project-v0.0.1
-
 ```
 
 
@@ -83,7 +82,7 @@ git push origin --delete branch/project-v0.0.1
 git config --global credential.helper store
 ```
 
-执行完成后，~/.gitconfig`文件中会多出来一行
+执行完成后，~/.gitconfig文件中会多出来一行
 
 ```shell
 [credential]

@@ -62,6 +62,32 @@ db.test.find({'name': '张三'});
 { "_id" : ObjectId("5caab0b8ac339885f12ba516"), "name" : "张三" }
 ```
 
+## 分页查询
+
+```mongo
+db.test.find().sort({"_id": 1}).skip(10).limit(10);
+```
+
+
+
+
+
+# 创建集合
+
+在 MongoDB 中，不需要创建集合。当插入一些文档时，MongoDB 会自动创建集合。
+
+```shell
+db.createCollection('order');
+```
+
+
+
+# 创建索引
+
+```shell
+db.order.ensureIndex({"orderId":1});
+```
+
 
 
 # 删除集合
