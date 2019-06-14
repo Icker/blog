@@ -48,9 +48,9 @@ git push -f -u origin master
 
 ```shell
 # 创建本地分支
-git branch /branch/project-v0.0.1
+git branch branch/project-v0.0.1
 # push到远程
-git push orgin /branch/project-v0.0.1
+git push origin branch/project-v0.0.1
 # 拉取远程分支
 git checkout /branch/project-v0.0.1
 # 设置当前pull、push的默认分支为新增的分支
