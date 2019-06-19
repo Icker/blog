@@ -10,23 +10,42 @@ categories: 分布式
 
 # 一、kafka是什么
 
-Kafka 起初是领英创建的用于收集用户活动数据，并处理持续数据流，后来交由Apache托管，成为一款热门的开源项目。
+Kafka是一款分布式流平台。
 
-## 存储系统
+Kafka 起初是领英创建的用于收集用户活动数据，并处理持续数据流，本质是一款分布式流平台。后来交由Apache托管，成为一款热门的开源项目。
 
-kafka可以是一款存储系统，但设计者并不仅仅将其视为存储系统，它不同于关系型数据库（如mysql）、键值数据库（如mongo）、缓存数据库（如redis）以及搜索引擎（如es）。
+Kafka有以下三个特点
+
+1. Kafka以集群形式运行在一个或者多个跨多数据中心的服务器上
+2. Kafka集群通过主题（Topics）对流数据进行存储分类
+3. 每一条流数据都由三个部分组成：key、value、时间戳
+
+
+
+Kafka目前由四个API：
+
+1. [Producer API](http://kafka.apache.org/documentation.html#producerapi) 允许应用发布流数据到一个或多个Kafka主题上。
+2. [Consumer API](http://kafka.apache.org/documentation.html#consumerapi) 允许应用订阅一个或多个主题，并处理该主题上的流数据。
+3. [Streams API](http://kafka.apache.org/documentation/streams) 允许应用充当一个流式处理器，消费来自一个或多个主题上的输入流。并且可以向一个或多个主题上生产输出流，有效的将输入流转换成输出流。
+4. [Connector API](http://kafka.apache.org/documentation.html#connect) 允许构建和运行可重用的生产者和消费者，该生产消费者连接kafka主题到现有的应用程序或者数据系统中。 比如，一个针对关系型数据库的连接器（Connector）可以捕获表的所有更改。
 
 
 
 ## 实时流平台
 
-Kafka 设计的目的是为了处理持续数据流，kafka把数据看作是不断变化和持续增长的数据流，它就是基于此而构建的一套存储系统，因此，kafka其实是一款流平台，我们可以在这个流平台上发布订阅数据流，并保存起来进行处理。
+Kafka 设计的目的是为了处理持续数据流，kafka把数据看作是不断变化和持续增长的数据流，它就是基于此而构建的一套存储系统，因此，kafka其实是一款流平台。
+
+一款流平台主要有以下三个特点：
+
+1. 发布订阅流式数据。这一点和消息系统相似。
+2. 以容错、持久的方式存储数据。这一点和存储系统相似。
+3. 在记录流出现时对其进行处理。
 
 
 
-## 消息系统
+### 消息系统
 
-当然，kafka也是一款消息系统，允许发布订阅消息，但设计之初并不是为了构建一款消息系统，而是流平台。Kafka的数据是按照一定的**顺序持久化保存**的。
+当然，kafka也是一款消息系统，允许发布订阅消息，Kafka的数据是按照一定的**顺序持久化保存**的，而消息系统理论上只是传递消息，不持久化消息。
 
 消息系统就是消息生产者将消息进行分类并发布到一个统一的broker中，然后消费者订阅该消息并进行消费。这整个就是发布订阅消息系统。
 
@@ -43,12 +62,6 @@ graph TB
 ```
 
 
-
-## 流平台和消息系统的区别
-
-- 流平台侧重点是处理数据不断变化和持续增长的问题，突出高吞吐量、强伸缩性。
-
-- 消息系统侧重点是处理数据的传递。
 
 
 
@@ -68,13 +81,15 @@ Kafka中的最小数据单元就是**消息**。每一条消息就像是关系�
 
 
 
-## 主题、分区以及流式处理
+## 主题
 
-kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的表，用来存储消息记录。主题可以分成若干个**分区**。无法保证消息在主题范围内的顺序，但可以保证消息在单个分区内的顺序。只要消息在一个分区内，就能够保证起顺序性。消息的顺序是先入先出的顺序读取。
+kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的表，用来存储消息记录。主题可以分成若干个**分区**，每个分区都是有序且顺序不可变的记录集。我们无法保证消息在主题范围内的顺序，但可以保证消息在单个分区内的顺序。只要消息在一个分区内，就能够保证起顺序性。分区中的每一个记录都会分配一个id号来表示顺序，我们称之为offset，offset用来唯一标识分区中每一条记录。
+
+![主题的组成](https://blog.airaccoon.cn/img/bed/20190619/1560930453374.png)
 
 分区的存在是为了提高数据的伸缩性。同个主题的分区可以分布在不同的服务器中，也就是说一个主题横跨多个服务器，以此来提升应用性能。
 
-![](https://blog.airaccoon.cn/img/bed/20190510/1557454964855.png)
+
 
 我们通常会使用**流**来形容kafka这类系统的数据。很多时候，人们把一个主题上的数据看成一个流，不论其有几个分区。**流是一组从生产者移动到消费者的数据。**当我们讨论**流式处理**时，一般都是这样描述消息的。kafka streams、apache samza和storm都是以**实时**的方式处理消息，也就是所谓的**流式处理**。
 
@@ -363,6 +378,59 @@ public class KafkaConsumerListener {
   }
 }
 ```
+
+
+
+## Apache Kafka Binder
+
+### 配置
+
+
+
+### 生产者
+
+
+
+### 消费者
+
+
+
+
+
+## Apache Kafka Streams Binder
+
+Spring Cloud结合Kafka Streams。
+
+1. Kafka Streams Binder是以spring-kafka为根基而实现的模块。
+2. Kafka Streams Binder为kafka streams中的三种主要类型（KStreams、KTable、GlobalKTable）提供了绑定的功能
+3. Kafka Streams Binder还提供了早期版本的Processor API支持。
+
+在Spring Cloud Stream中，对Kafka Streams的支持仅仅是在处理器模型的支持。这个模型是从入站主题（inbound topic）中读取消息，往出站主题（outbound topic）中写入消息。
+
+
+
+![producers consumers](https://blog.airaccoon.cn/img/bed/20190619/1560916230341.png)
+
+
+
+### 配置
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-stream-binder-kafka-streams</artifactId>
+</dependency>
+```
+
+
+
+
+
+### 生产者
+
+
+
+### 消费者
 
 
 
