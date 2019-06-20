@@ -31,7 +31,7 @@ Kafka目前由四个API：
 
 
 
-## 实时流平台
+## 分布式流平台
 
 Kafka 设计的目的是为了处理持续数据流，kafka把数据看作是不断变化和持续增长的数据流，它就是基于此而构建的一套存储系统，因此，kafka其实是一款流平台。
 
@@ -135,7 +135,7 @@ broker是**集群**的组成部分。每个集群都有一个broker同时充当*
 
 ![](https://blog.airaccoon.cn/img/bed/20190510/1557455072547.png)
 
-## 直接使用Kafka API
+## Kafka Streams
 
 ### 生产者
 
@@ -273,7 +273,7 @@ public class KafkaConsumerTest {
 
 
 
-## Spring Boot 结合 Kafka
+## Spring Kafka
 
 spring提供了一个专门的项目支持kafka：spring-kafka
 ```xml
@@ -381,23 +381,24 @@ public class KafkaConsumerListener {
 
 
 
-## Apache Kafka Binder
+## Spring Cloud Stream Kafka
 
-### 配置
-
-
-
-### 生产者
+在说Spring Cloud Stream Kafka之前首先要明白 Spring Cloud Stream。
 
 
 
-### 消费者
+###Spring Cloud Stream
+
+Spring Cloud Stream提供了多种绑定器（binder）的实现：
+
+- RabbitMQ
+- Apache Kafka
+- Kafka Streams
+- Google PubSub
 
 
 
-
-
-## Apache Kafka Streams Binder
+### Spring Cloud Stream Kafka
 
 Spring Cloud结合Kafka Streams。
 
@@ -413,7 +414,7 @@ Spring Cloud结合Kafka Streams。
 
 
 
-### 配置
+#### 配置
 
 ```xml
 <dependency>
@@ -424,13 +425,11 @@ Spring Cloud结合Kafka Streams。
 
 
 
-
-
-### 生产者
+#### 生产者
 
 
 
-### 消费者
+####  消费者
 
 
 
