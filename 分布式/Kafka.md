@@ -10,24 +10,66 @@ categories: 分布式
 
 # 一、kafka是什么
 
+## 介绍
+
 Kafka是一款分布式流平台。
 
 Kafka 起初是领英创建的用于收集用户活动数据，并处理持续数据流，本质是一款分布式流平台。后来交由Apache托管，成为一款热门的开源项目。
 
-Kafka有以下三个特点
+Kafka有以下三个特点：
 
 1. Kafka以集群形式运行在一个或者多个跨多数据中心的服务器上
-2. Kafka集群通过主题（Topics）对流数据进行存储分类
+2. Kafka集群通过主题（Topics）对流数据进行分类
 3. 每一条流数据都由三个部分组成：key、value、时间戳
 
 
 
-Kafka目前由四个API：
+Kafka目前有四个API：
 
 1. [Producer API](http://kafka.apache.org/documentation.html#producerapi) 允许应用发布流数据到一个或多个Kafka主题上。
 2. [Consumer API](http://kafka.apache.org/documentation.html#consumerapi) 允许应用订阅一个或多个主题，并处理该主题上的流数据。
 3. [Streams API](http://kafka.apache.org/documentation/streams) 允许应用充当一个流式处理器，消费来自一个或多个主题上的输入流。并且可以向一个或多个主题上生产输出流，有效的将输入流转换成输出流。
 4. [Connector API](http://kafka.apache.org/documentation.html#connect) 允许构建和运行可重用的生产者和消费者，该生产消费者连接kafka主题到现有的应用程序或者数据系统中。 比如，一个针对关系型数据库的连接器（Connector）可以捕获表的所有更改。
+
+
+
+### Producer API
+
+引入以下maven依赖来使用Producer API
+
+```xml
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+
+
+### Comsumer API
+
+引入以下maven依赖来使用Comsumer API
+
+```xml
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+
+
+### Streams API
+
+```xml
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-streams</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 
 
@@ -67,6 +109,30 @@ graph TB
 
 # 二、Kafka做到了什么
 
+## 主题（Topic）和日志
+
+主题（Topic）是用于流数据的分类。可以被多个消费者订阅。对于每一个topic，kafka集群都会维持一个分区（partition）日志，如图所示：
+
+![主题的组成](https://blog.airaccoon.cn/img/bed/20190619/1560930453374.png)
+
+每个分区都是有序且顺序不可变的记录集。这些记录集会持续不断的添加到结构化的提交日志（commit log）中。
+
+每个分区上的记录集都会被分配一个序号，这个序号被叫做偏移量（offset），这个offset唯一标志记录集中的每一个记录。这个偏移量保证了在同一个分区内消息的顺序性。
+
+kafka集群会根据配置的保留期限对所有发布了的数据进行持久化，无论该数据是否被消费过。例如：保留策略是两天，那么在两天内该记录可被消费，之后就会被释放。
+
+kafka的性能不受数据存储的影响。如下图，可以知道：
+
+![](https://blog.airaccoon.cn/img/bed/20190621/1561099923781.png)
+
+
+
+
+
+
+
+
+
 ## 消息和批次
 
 Kafka中的最小数据单元就是**消息**。每一条消息就像是关系型数据库中的一条记录或者数据行。对kafka而言，消息并没有特殊的数据格式或者含义，任何消息都以字节数组的形式顺序存储。消息的键也是字节数组存储。当消息被存储到不同的分区的时候，会根据这个键产生一个哈希值，并取模分配存储到对应的分区。这样保证一样的key一定在同一个分区。
@@ -78,20 +144,6 @@ Kafka中的最小数据单元就是**消息**。每一条消息就像是关系�
 ## 模式
 
 对于kafka而言，消息是字节数组，晦涩难懂。因此根据应用程序的需求，用了一些额外的结构来定义了消息内容，让其便于理解，方便我们理解kafka的消息结构。
-
-
-
-## 主题
-
-kafka的消息通过**主题**进行分类。kafka的主题就类似mysql中的表，用来存储消息记录。主题可以分成若干个**分区**，每个分区都是有序且顺序不可变的记录集。我们无法保证消息在主题范围内的顺序，但可以保证消息在单个分区内的顺序。只要消息在一个分区内，就能够保证起顺序性。分区中的每一个记录都会分配一个id号来表示顺序，我们称之为offset，offset用来唯一标识分区中每一条记录。
-
-![主题的组成](https://blog.airaccoon.cn/img/bed/20190619/1560930453374.png)
-
-分区的存在是为了提高数据的伸缩性。同个主题的分区可以分布在不同的服务器中，也就是说一个主题横跨多个服务器，以此来提升应用性能。
-
-
-
-我们通常会使用**流**来形容kafka这类系统的数据。很多时候，人们把一个主题上的数据看成一个流，不论其有几个分区。**流是一组从生产者移动到消费者的数据。**当我们讨论**流式处理**时，一般都是这样描述消息的。kafka streams、apache samza和storm都是以**实时**的方式处理消息，也就是所谓的**流式处理**。
 
 
 
