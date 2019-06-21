@@ -123,7 +123,7 @@ kafka集群会根据配置的保留期限对所有发布了的数据进行持久
 
 kafka的性能不受数据存储的影响。如下图，可以知道：
 
-![](https://blog.airaccoon.cn/img/bed/20190621/1561099923781.png)
+![](https://blog.airaccoon.cn/img/bed/20190621/1561100156044.png)
 
 
 
