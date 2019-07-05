@@ -70,6 +70,19 @@ git push origin --delete branch/project-v0.0.1
 
 
 
+## 版本回退
+
+```shell
+# 查看日志
+git log --pretty=oneline
+# 版本回退
+git reset --hard b19facd782e859e2d66bbf124d43752db6c2a459
+# 强制push到远程（-f）。不加f会失败因为本地已经重置为旧的版本，而远程是新的，导致提交被拒绝。
+git push -f
+```
+
+
+
 
 
 # 解决每次pull都要输入账号密码的问题
