@@ -81,7 +81,7 @@ git reset --hard b19facd782e859e2d66bbf124d43752db6c2a459
 git push -f
 ```
 
-
+![版本回退](https://blog.airaccoon.cn/img/bed/20190705/版本回退.gif)
 
 
 
