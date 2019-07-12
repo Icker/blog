@@ -102,6 +102,8 @@ git config --global credential.helper store
         helper = store
 ```
 
+
+
 ## 第二步
 
 执行`git pull`再次输入账号密码，之后就不需要输入密码了。

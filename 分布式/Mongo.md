@@ -54,6 +54,14 @@ db.test.insert({'name': '张三'});
 
 
 
+# 更新数据
+
+```sql
+
+```
+
+
+
 # 查询数据
 
 ```mongo
@@ -61,6 +69,8 @@ db.test.find({'name': '张三'});
 -- 结果：
 { "_id" : ObjectId("5caab0b8ac339885f12ba516"), "name" : "张三" }
 ```
+
+
 
 ## 分页查询
 
