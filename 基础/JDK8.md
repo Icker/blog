@@ -134,7 +134,9 @@ static class Car {
 
 
 
-# 第三章：默认方法
+# 第三章：接口增强
+
+## 默认方法
 
 接口也能够实现方法。以`default`开头的方法。
 
@@ -160,6 +162,26 @@ interface Food {
     }
 }
 ```
+
+
+
+## 静态方法
+
+JDK8允许在接口中定义静态方法
+
+```java
+public interface A {
+  static String getName(String type) {
+    return "测试" + type;
+  }
+}
+```
+
+
+
+
+
+
 
 # 第四章：流式编程（Stream API）
 
