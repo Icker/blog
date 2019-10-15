@@ -126,3 +126,49 @@ db.test.remove({'title':'MongoDB 教程'});
 quit();
 ```
 
+
+
+# 结合Spring Boot
+
+## 依赖加载
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-mongodb</artifactId>
+</dependency>
+```
+
+
+
+## 参数配置
+
+```yaml
+spring:
+  data:
+    mongodb:
+      uri: mongodb://raccoon:123456@localhost:27017/universe
+```
+
+
+
+## 实体映射
+
+`Spring Data MongoDB`提供了映射注解，我们在实体类上使用这些注解就能够映射成对应的mongo表。
+
+1. `@Id`：标记ID字段。默认是`ObjectId`类，没有标记此注解，则我们无法读取到ID；
+2. `@Document`：标记此实体类是mongo集合映射类，`collection`参数指定集合名称；
+3. `@Indexed`：为指定字段创建索引。`direction`参数可以指定排序方向，升或降序；
+4. `@CompoundIndex`：创建复合索引。`def`参数指定索引包含的字段以及排序方向；
+5. `@Transient`：标记为原生字段。不映射到mongo中；
+6. `@Field`：指定字段在mongo中的名称；
+7. `@DBRef`：指定与其他集合的级联关系，不添加此注释时对象将会保存具体的实体值，而添加了此注释当前集合保存的是关联集合的id
+
+
+
+
+
+
+
+
+
