@@ -5,7 +5,7 @@ tags:
 - 客户关系管理
 - CRM
 - 管理学
-categaries: 
+categories: 
 - 业务
 - 客户关系管理
 ---
