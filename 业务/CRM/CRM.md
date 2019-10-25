@@ -97,3 +97,14 @@ o-->d(决策分析)
 
 
 
+# 资料
+
+[CRM项目实战（一）：概念和业务篇](http://www.woshipm.com/pmd/1909335.html)
+
+[CRM项目实战（二）：获取客户篇](http://www.woshipm.com/pd/1912623.html)
+
+[CRM项目实战（三）：从0到1构建用户画像](http://www.woshipm.com/pd/2085106.html)
+
+[CRM项目实战（四）：零售行业的几个核心商业逻辑](http://www.woshipm.com/it/2156137.html)
+
+[MBA-客户关系管理](https://wiki.mbalib.com/wiki/Customer_Relationship_Management)
