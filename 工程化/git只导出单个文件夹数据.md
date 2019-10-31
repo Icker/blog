@@ -12,7 +12,7 @@ git1.7.0以后加入了Sparse Checkout模式，这使得Check Out指定文件或
 
 ```shell
 git init
-git remote add -f origin http://47.92.96.167:8000/root/blog.git
+git remote add -f origin http://127.0.0.2:8000/root/blog.git
 # 开启sparse checkout 模式
 git config core.sparsecheckout true
 # 告诉Git哪些文件或者文件夹是你真正想Check Out

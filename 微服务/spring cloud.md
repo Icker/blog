@@ -1016,9 +1016,9 @@ spring:
 zipkin:
   collector:
     rabbitmq:
-      addresses: 47.92.96.167:5672
-      username: raccoon
-      password: 116511
+      addresses: 127.0.0.1:5672
+      username: root
+      password: 123456
       queue: zipkin
     sample-rate: 1
 # zipkin启动报错无法访问的解决方法
@@ -1067,9 +1067,9 @@ spring:
     name: zipkin-rabbitmq-provider
   rabbitmq:
     port: 5672
-    host: 47.92.96.167
-    username: raccoon
-    password: 116511
+    host: 127.0.0.1
+    username: root
+    password: 123456
   zipkin:
     rabbitmq:
       queue: zipkin
@@ -1131,9 +1131,9 @@ spring:
     name: zipkin-rabbitmq-gateway
   rabbitmq:
     port: 5672
-    host: 47.92.96.167
-    username: raccoon
-    password: 116511
+    host: 127.0.0.1
+    username: root
+    password: 123456
   zipkin:
     rabbitmq:
       queue: zipkin
