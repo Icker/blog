@@ -166,9 +166,34 @@ spring:
 
 
 
+# 安装Mongo
+
+```shell
+sudo touch /etc/yum.repos.d/mongodb-org.repo
+
+sudo vi /etc/yum.repos.d/mongodb-org.repo
+[mongodb-org]
+name=MongoDB Repository 
+baseurl=http://mirrors.aliyun.com/mongodb/yum/redhat/7Server/mongodb-org/3.2/x86_64/ 
+gpgcheck=0 
+enabled=1
+
+vim /etc/mongod.conf
+net:
+port: 27017
+bindIp: 127.0.0.1 // mongodb 默认绑定的IP地址
 
 
+mongo     // 本地连接数据库
+use admin    // 切换到admin数据库，没有会自动添加
+db.createUser({	 // 创建管理员用户
+ user: "raccoon",
+ pwd: "116511",
+ roles: [{role: "root", db: "admin"}]	// 角色：超级管理员，数据库：admin
+ }
+)
 
+# 外网连接
 
-
+```
 

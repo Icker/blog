@@ -48,7 +48,7 @@ mkdir /mnt/data/git-data
 chown -R git.git /mnt/data/git-data
 
 # 配置文件备份
-cp /etc/gitlab/gitlab.rb /etc/gitlab/gitlab.rb.bak 
+cp /etc/gitlab/gitlab.rb /etc/gitlab/gitlab.rb.bak
 
 # 修改配置文件
 vim /etc/gitlab/gitlab.rb
