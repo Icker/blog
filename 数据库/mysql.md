@@ -1,8 +1,11 @@
 ---
 title: MySQL
-tags: 关系型数据库
-categories: 基础
-date: 2019-04-23 17:11:23
+tags: 
+- 关系型数据库
+- 数据库
+- MySQL
+categories: 
+- 数据库
 ---
 
 

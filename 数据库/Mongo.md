@@ -1,8 +1,11 @@
 ---
 title: Mongo
-tags: NoSQL
-categories: 分布式
-date: 2019-04-25 17:11:23
+tags: 
+- 数据库
+- NoSQL
+- Mongo
+categories: 
+- 数据库
 ---
 
 
