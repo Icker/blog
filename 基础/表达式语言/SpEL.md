@@ -8,6 +8,8 @@ categories:
 - SpEL
 ---
 
+
+
 # 是什么
 
 SpEL是Spring使用的一种表达式语言。类似于EL表达式，他能够在运行时操作对象符号。拥有方法调用（Method invocation）、变量替换（Variables）、比较运算、bean引用（Bean references）等功能。
