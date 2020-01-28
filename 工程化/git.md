@@ -85,6 +85,25 @@ git push -f
 
 
 
+## 二分查找日志
+
+```shell
+git 二分查找
+git bisect start 开始二分查找
+git bisect bad 当前版本标记为坏版本
+git bisect good G 将G(此处可以为<commit id>，也可以为tag)版本票房为好版本
+git describe 自动定位
+git bisect good 
+git bisect bad 
+ .....
+git bisect reset
+至此二分查找结束
+```
+
+
+
+
+
 # 解决每次pull都要输入账号密码的问题
 
 ## 第一步
