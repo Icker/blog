@@ -18,11 +18,11 @@ logback是日志系统，它继承自log4j，比其他的日志系统更快更�
 
 ![](https://blog.airaccoon.cn/img/bed/20200311/1583918668217.png)
 
+[logback中文网](http://www.logback.cn/)
 
 
 
-
-# 二、逻辑组件
+# 二、组件
 
 `logback`主要构建在三个组件上：`Logger`、`Appender`、`Layout`。
 
@@ -67,6 +67,12 @@ logback-->Layout
 
 
 
+## Encoder
+
+可以看作是`Layout`的升级版
+
+
+
 ## Filters
 
 在`logback-classic`中，有两种类型的过滤器，`regular`过滤器以及`turbo`过滤器。
@@ -90,9 +96,9 @@ logback-->Layout
 
 `MDC`即日志上下文。
 
-实现方式：在每个线程的基础上管理上下文信息，而后通过特定的 logback 组件去获取
-
 `MDC` 类中只包含静态方法。它让开发人员可以在 *诊断上下文* 中放置信息，而后通过特定的 logback 组件去获取。
+
+目前只有log4j和logback实现了MDC
 
 
 
@@ -154,23 +160,7 @@ public class MDC {
 
 
 
-
-
-# 四、收获
-
-1. 策略模式无处不在。不论是Appender、Layout这些重要组件，还是Encoder；
-2. 过滤器采用三值逻辑循环处理，没有使用责任链模式；
-   1. 所谓三值逻辑是相对于古典的二值逻辑引申出来的，除了true、false、还多了未知
-3. sl4j中的MDC调用的MDCAdapter重点不在于适配，而在于委派。将实际的工作委派给具体的日志系统，如logback；
-4. MDC加上servlet过滤器可以实现链路追踪；
-
-
-
-
-
-
-
-# 五、Demo
+# 四、Demo
 
 将日志通过`SocketAppender`投递到远程服务器上，并通过`DBAppender`持久化到mysql中。
 
@@ -379,11 +369,19 @@ public class LogController {
 
 
 
-
-
 ![](https://blog.airaccoon.cn/img/bed/20200326/1585195858311.png)
 
 
+
+
+
+# 五、收获
+
+1. 策略模式无处不在。不论是Appender、Layout这些重要组件，还是Encoder；
+2. 过滤器采用三值逻辑循环处理，没有使用责任链模式；
+   1. 所谓三值逻辑是相对于古典的二值逻辑引申出来的，除了true、false、还多了未知
+3. MDC加上servlet过滤器可以实现链路追踪；目前只有log4j和logback支持MDC
+4. slf4j中的MDC调用的MDCAdapter重点不在于适配，而在于委派。将实际的工作委派给具体的日志系统，如logback；
 
 
 
